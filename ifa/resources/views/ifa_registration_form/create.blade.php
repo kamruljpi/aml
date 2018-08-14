@@ -181,7 +181,7 @@ if (isset($nationalities)) {
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="date_of_birth">Date of Birth  <span class="required">*</span></label>
-                                    <input type="text" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="Date of Birth" data-provide="datepicker">
+                                    <input type="text" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="Date of Birth" data-provide="datepicker" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-sm-4">
