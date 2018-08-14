@@ -256,7 +256,8 @@ class IFARegistrationController extends Controller {
 								$file->move(public_path('idlc_aml_images/ifa_registrations'), $file->getClientOriginalName());
 								$oldfile = public_path('idlc_aml_images/ifa_registrations/' . $file->getClientOriginalName());
 								$ext = explode('.', $file->getClientOriginalName());
-								$newfile = $_SERVER['DOCUMENT_ROOT'] . '/aml/idlc_aml_images/ifa_registrations/' . $application_no . '.' . $ext[1];
+								// $newfile = $_SERVER['DOCUMENT_ROOT'] . '/aml/idlc_aml_images/ifa_registrations/' . $application_no . '.' . $ext[1];
+								$newfile = public_path('idlc_aml_images/ifa_registrations').'/' . $application_no . '.' . $ext[1];
 								File::copy($oldfile, $newfile);
 
 								DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['image_ext' => $ext[1]]);
@@ -474,14 +475,15 @@ class IFARegistrationController extends Controller {
 
 
 							if ($request->file('upload_picture')->isValid()) {
-								$file = $request->file('upload_picture');
-								$file->move(public_path('idlc_aml_images/ifa_registrations'), $file->getClientOriginalName());
-								$oldfile = public_path('idlc_aml_images/ifa_registrations/' . $file->getClientOriginalName());
-								$ext = explode('.', $file->getClientOriginalName());
-								$newfile = $_SERVER['DOCUMENT_ROOT'] . '/aml/idlc_aml_images/ifa_registrations/' . $application_no . '.' . $ext[1];
-								File::copy($oldfile, $newfile);
+								// $file = $request->file('upload_picture');
+								// $file->move(public_path('idlc_aml_images/ifa_registrations'), $file->getClientOriginalName());
+								// $oldfile = public_path('idlc_aml_images/ifa_registrations/' . $file->getClientOriginalName());
+								// $ext = explode('.', $file->getClientOriginalName());
+								// $newfile = public_path('idlc_aml_images/ifa_registrations').'/' . $application_no . '.' . $ext[1];
 
-								DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['image_ext' => $ext[1]]);
+								// File::copy($oldfile, $newfile);
+
+								// DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['image_ext' => $ext[1]]);
 							}else{
 								$return_data_arr = [
 									'has_error' => TRUE,
@@ -516,6 +518,17 @@ class IFARegistrationController extends Controller {
 
 					DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['application_status' => 'PartiallyCompleted']);
 
+					
+					$file = $request->file('upload_picture');
+					$file->move(public_path('idlc_aml_images/ifa_registrations'), $file->getClientOriginalName());
+					$oldfile = public_path('idlc_aml_images/ifa_registrations/' . $file->getClientOriginalName());
+					$ext = explode('.', $file->getClientOriginalName());
+					$newfile = public_path('idlc_aml_images/ifa_registrations').'/' . $application_no . '.' . $ext[1];
+
+					File::copy($oldfile, $newfile);
+
+					DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['image_ext' => $ext[1]]);
+									
 					$mobile_no = $request->input('mobile_no');
 
 					$request->session()->put('ifa_registration_password', $password);
@@ -1049,7 +1062,7 @@ class IFARegistrationController extends Controller {
 								$file->move(public_path('idlc_aml_images/ifa_registrations'), $file->getClientOriginalName());
 								$oldfile = public_path('idlc_aml_images/ifa_registrations/' . $file->getClientOriginalName());
 								$ext = explode('.', $file->getClientOriginalName());
-								$newfile = $_SERVER['DOCUMENT_ROOT'] . '/aml/idlc_aml_images/ifa_registrations/' . $application_no . '.' . $ext[1];
+								$newfile = public_path('idlc_aml_images/ifa_registrations').'/' . $application_no . '.' . $ext[1];
 								File::copy($oldfile, $newfile);
 
 								DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['image_ext' => $ext[1]]);
@@ -1273,8 +1286,7 @@ class IFARegistrationController extends Controller {
 				$insert_arr['bank_branch_id'] =  '';
 				$insert_arr['bank_account_no'] =  '';
 			}
-
-
+			
 			DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update($insert_arr);
 			$return_data_arr = [
 				'has_success' => TRUE,
