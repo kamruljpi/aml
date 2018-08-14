@@ -36,7 +36,7 @@ $('#mobile_no').focusout(function(e){
         }else{
             $.ajax({
                 type: "POST",
-                url: "/aml/value/check/mobile",
+                url: baseURL + "/value/check/mobile",
                 data: {mobile_number: mobile_number, _token:_token},
                 datatype: 'json',
                 cache: false,
@@ -96,7 +96,7 @@ $('#email').focusout(function(e){
         $('#unique_input_error').modal('hide');
         $.ajax({
             type: "POST",
-            url: "/aml/value/check/email",
+            url: baseURL + "/value/check/email",
             data: {email: email, _token:_token},
             datatype: 'json',
             cache: false,
@@ -179,7 +179,7 @@ $('#national_id_card_no').focusout(function(e){
 
         $.ajax({
             type: "POST",
-            url: "/aml/value/check/national_id_card_no",
+            url: baseURL + "/value/check/national_id_card_no",
             data: {national_id_card_no: national_id_card_no, _token:_token},
             datatype: 'json',
             cache: false,
@@ -315,7 +315,7 @@ $('#previous_password').focusout(function(e){
     var _token = $('input[name=_token]').val();
     $.ajax({
         type: "POST",
-        url: "/aml/value/check/password",
+        url: baseURL + "/value/check/password",
         data: {password: previous_password, _token:_token},
         datatype: 'json',
         cache: false,
