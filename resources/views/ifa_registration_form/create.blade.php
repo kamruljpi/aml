@@ -1039,27 +1039,6 @@ session()->put('ifa_registration_success_message', 'Thank you for applying as IF
                 });
 
     });
-
-// $('#mobile_no').focusout(function(e){
-//     var mobile_number = $('input[name=mobile_no]').val();
-//     var _token = $('input[name=_token]').val();
-//     if(mobile_number.length > 8){
-//         $.ajax({
-//             type: "POST",
-//             url: "/value/check/mobile",
-//             data: {mobile_number: mobile_number, _token:_token},
-//             datatype: 'json',
-//             cache: false,
-//             async: false,
-//             success: function (result) {
-
-//             },
-//             error: function (result) {
-//                 alert("Error In value Check");
-//             }
-//         });
-//     }
-// });
 </script>
 <style type="text/css">
     .alert-success {

@@ -848,7 +848,7 @@ $('.receive_sales_commission_by_flag_Bank').css('display', '{{ $application_deta
                             }else{
                                 errottext += '<li>'+value+'</li>';
                             }
-                            
+
                         });
                         errottext += '</ul>';
 

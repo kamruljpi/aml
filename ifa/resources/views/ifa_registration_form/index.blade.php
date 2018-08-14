@@ -1,4 +1,4 @@
-<?php //echo public_path();exit;                                                    ?>
+<?php                                                   ?>
 
 @extends('layouts.idlc_aml.app')
 @section('content')
