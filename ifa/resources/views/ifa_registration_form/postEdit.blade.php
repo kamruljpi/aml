@@ -239,7 +239,7 @@ if (isset($user_types)) {
                                 </div>
                             </div>
                             <div class="col-sm-3 uploaded_picture_preview_div">
-                                <img id="uploaded_picture_preview" src="{{ asset('idlc_aml_images/ifa_registrations/' . $application_details->application_no . '.png') }}" alt="Uploaded Picture Preview" width="100" />
+                                <img id="uploaded_picture_preview" src="{{ asset('ifa/public/idlc_aml_images/ifa_registrations/' . $application_details->application_no .'.'. $application_details->image_ext) }}" alt="Uploaded Picture Preview" width="100" />
                             </div>
                         </div>
 
