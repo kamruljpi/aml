@@ -76,8 +76,6 @@
     </div>
 
 
-
-
     <ul class="nav nav-tabs">
         <li class=""><a id="personal_profile_tab" data-toggle="tab" href="#personal_profile">Personal Profile</a></li>
         <li class=""><a id="educational_professional_information_tab" href="#educational_professional_information" data-toggle="tab">Educational / Professional Information</a></li>
@@ -87,7 +85,7 @@
     <div class="tab-content">
 
         <div id="personal_profile" class="tab-pane fade  <?php echo isset($application_no) && isset($step) ? ($step == 1 ? ' in active' : '') : '' ?>">
-            <form method="post" action="{{ route('ifa_registration.update', isset($application_no) ? $application_no : 0) }}" runat="server" enctype="multipart/form-data" id="ifa_registration_form_step_1">
+            <form method="post" data-xformid="first" action="{{ route('ifa_registration.update', isset($application_no) ? $application_no : 0) }}" runat="server" enctype="multipart/form-data" id="ifa_registration_form_step_1">
 
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 {!! method_field('PUT') !!}
@@ -127,7 +125,7 @@
                                     <div class="input-group">
 <!--                                        <span class="input-group-addon" id="basic-addon1">+88 01</span>
                                         <input type="number" class="form-control" id="mobile_no" name="mobile_no" placeholder="Mobile No." aria-describedby="basic-addon1" value="{{ !isset($application_details->mobile_no) ?: $application_details->mobile_no  }}">-->
-                                        <p class="form-class-static">+88 {{ !isset($application_details->mobile_no) ?: $application_details->mobile_no  }}</p>
+                                        <p class="form-class-static">+880{{ !isset($application_details->mobile_no) ?: $application_details->mobile_no  }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -193,7 +191,7 @@ if (isset($nationalities)) {
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="date_of_birth">Date of Birth  <span class="required">*</span></label>
-                                    <input type="text" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="Date of Birth" data-provide="datepicker" value="{{ !isset($application_details->date_of_birth) ?: $application_details->date_of_birth  }}">
+                                    <input type="text" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="dd/mm/yyyy" data-provide="datepicker" autocomplete="off" value="{{ !isset($application_details->date_of_birth) ?: $application_details->date_of_birth  }}">
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -353,13 +351,13 @@ if (isset($divisions)) {
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <label for="present_address_road_no">Road No.</label>
+                                                    <label for="present_address_road_no">Road/Block/Sector.</label>
                                                     <input type="text" class="form-control" id="present_address_road_no" name="present_address_road_no" placeholder="Road No." value="{{ !isset($application_details->pre_addr_road_no) ? '' : $application_details->pre_addr_road_no  }}">
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <label for="present_address_house_no">House No.</label>
+                                                    <label for="present_address_house_no">Village/House.</label>
                                                     <input type="text" class="form-control" id="present_address_house_no" name="present_address_house_no" placeholder="House No." value="{{ !isset($application_details->pre_addr_house_no) ? '' : $application_details->pre_addr_house_no  }}">
                                                 </div>
                                             </div>
@@ -452,13 +450,13 @@ if (isset($divisions)) {
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 <div class="form-group is_same_as_present_address_flag_yes">
-                                                    <label for="permanent_address_road_no">Road No.</label>
+                                                    <label for="permanent_address_road_no">Road/Block/Sector.</label>
                                                     <input type="text" class="form-control" id="permanent_address_road_no" name="permanent_address_road_no" placeholder="Road No." value="{{ !isset($application_details->per_addr_road_no) ? '' : $application_details->per_addr_road_no  }}">
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group is_same_as_present_address_flag_yes">
-                                                    <label for="permanent_address_house_no">House No.</label>
+                                                    <label for="permanent_address_house_no">Village/House.</label>
                                                     <input type="text" class="form-control" id="permanent_address_house_no" name="permanent_address_house_no" placeholder="House No." value="{{ !isset($application_details->per_addr_house_no) ? '' : $application_details->per_addr_house_no  }}">
                                                 </div>
                                             </div>
@@ -469,7 +467,6 @@ if (isset($divisions)) {
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -483,7 +480,7 @@ if (isset($divisions)) {
                         </div>
 
                         <div class="col-sm-4">
-                            <input type="submit" data-txt="Submit" class="btn btn-primary btn-block btnFormSubmit" value="Submit" />
+                            <input type="submit" data-txt="Submit" class="btn btn-primary btn-block btnFormSubmit btn_submit" value="Submit" />
                         </div>
 
                         <div class="col-sm-4">
@@ -498,7 +495,7 @@ if (isset($divisions)) {
 
         <div id="educational_professional_information" class="tab-pane fade">
 
-            <form method="post" action="{{ route('ifa_registration.update', !isset($application_no) ?: $application_no) }}" runat="server" id="ifa_registration_form_step_2">
+            <form method="post" data-xformid="second" action="{{ route('ifa_registration.update', !isset($application_no) ?: $application_no) }}" runat="server" id="ifa_registration_form_step_2">
 
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 {!! method_field('PUT') !!}
@@ -585,7 +582,7 @@ if (isset($divisions)) {
                         </div>
 
                         <div class="col-sm-4">
-                            <input type="submit" data-txt="Submit" class="btn btn-primary btn-block btnFormSubmit" value="Submit" />
+                            <input type="submit" data-txt="Submit" class="btn btn-primary btn-block btnFormSubmit btn_submit" value="Submit" />
                         </div>
 
                         <div class="col-sm-4">
@@ -599,7 +596,7 @@ if (isset($divisions)) {
         </div>
         <div id="bank_alternate_channel_information" class="tab-pane fade">
 
-            <form method="post" action="{{ route('ifa_registration.update', !isset($application_no) ?: $application_no) }}" runat="server" id="ifa_registration_form_step_3">
+            <form method="post" data-xformid="third" action="{{ route('ifa_registration.update', !isset($application_no) ?: $application_no) }}" runat="server" id="ifa_registration_form_step_3">
 
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 {!! method_field('PUT') !!}
@@ -670,8 +667,8 @@ if (isset($banks)) {
                         <div class="form-group">
                             <label for="bKash_mobile_no">bKash Mobile No.</label>
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon2">+88 </span>
-                                <input type="text" class="form-control" id="bKash_mobile_no" name="bKash_mobile_no" maxlength="11" placeholder="bKash Mobile No." aria-describedby="basic-addon2" value="{{ !isset($application_details->bKash_mobile_no) ? '' : $application_details->bKash_mobile_no  }}">
+                                <span class="input-group-addon" id="basic-addon2">+880</span>
+                                <input type="text" class="form-control" id="bKash_mobile_no" name="bKash_mobile_no" maxlength="10" placeholder="bKash Mobile No." aria-describedby="basic-addon2" value="{{ !isset($application_details->bKash_mobile_no) ? '' : $application_details->bKash_mobile_no  }}">
                             </div>
                         </div>
                     </div>
@@ -684,7 +681,7 @@ if (isset($banks)) {
                         </div>
 
                         <div class="col-sm-4">
-                            <input type="submit" data-txt="Submit" class="btn btn-primary btn-block btnFormSubmit" value="Submit" />
+                            <input type="submit" data-txt="Submit" class="btn btn-primary btn-block btnFormSubmit btn_submit" value="Submit" />
                         </div>
 
                         <div class="col-sm-4">
@@ -776,7 +773,32 @@ if (isset($banks)) {
 
         $('input[type=radio][name=is_same_as_present_address]').change(function () {
             var flag = this.value;
-            $('.is_same_as_present_address_flag_yes').css('display', (flag === 'yes' ? 'none' : 'block'));
+            if(flag == 'yes'){
+                if($("#present_address_premise_ownership").val() != ''
+                    && $("#present_address_division").val() != ''
+                    && $("#present_address_district").val() != ''
+                    && $("#present_address_po").val() != ''
+                    && $("#present_address_road_no").val() != ''
+                    && $("#present_address_house_no").val() != ''
+                    && $("#present_address_flat_no").val() != ''
+                    ){
+                    $("#permanent_address_premise_ownership").val($("#present_address_premise_ownership").val());
+                    $("#permanent_address_division").val($("#present_address_division").val());
+                    $("#permanent_address_district").val($("#present_address_district").val());
+                    $("#permanent_address_po").val($("#present_address_po").val());
+                    $("#permanent_address_road_no").val($("#present_address_road_no").val());
+                    $("#permanent_address_house_no").val($("#present_address_house_no").val());
+                    $("#permanent_address_flat_no").val($("#present_address_flat_no").val());
+                    $('.is_same_as_present_address_flag_yes').css('display','none');
+                }else{
+                    $('.validation_error_msg').empty();
+                    $('.alert-danger').hide();
+                    $('.modal .alert-danger').show();
+                    $('#unique_input_error').modal('show');
+                    $('.validation_error_msg').append("You must need to fill up present address.");
+                    $("#is_same_as_present_address_no").prop("checked", true);
+                }
+            }
         });
 
 
@@ -824,8 +846,58 @@ $('.receive_sales_commission_by_flag_Bank').css('display', '{{ $application_deta
 
             var form_action = $(this).attr('action');
             var form_method = $(this).attr('method');
-            var form_data = new FormData(this);
-
+            // var form_data = new FormData(this);
+            var form_data = new FormData();
+            form_data.append("first_name",$("#first_name").val());
+            form_data.append("middle_name",$("#middle_name").val());
+            form_data.append("last_name",$("#last_name").val());
+            form_data.append("mobile_no",$("#mobile_no").val());
+            form_data.append("email",$("#email").val());
+            form_data.append("father_name",$("#father_name").val());
+            form_data.append("mother_name",$("#mother_name").val());
+            form_data.append("nationality",$("#nationality").val());
+            form_data.append("date_of_birth",$("#date_of_birth").val());
+            form_data.append("national_id_card_no",$("#national_id_card_no").val());
+            form_data.append("user_type",$("#user_type").val());
+            form_data.append("present_address_premise_ownership",$("#present_address_premise_ownership").val());
+            form_data.append("present_address_division",$("#present_address_division").val());
+            form_data.append("present_address_district",$("#present_address_district").val());
+            form_data.append("present_address_po",$("#present_address_po").val());
+            form_data.append("present_address_road_no",$("#present_address_road_no").val());
+            form_data.append("present_address_house_no",$("#present_address_house_no").val());
+            form_data.append("present_address_flat_no",$("#present_address_flat_no").val());
+            form_data.append("latest_degree",$("#latest_degree").val());
+            form_data.append("last_educational_institution",$("#last_educational_institution").val());
+            form_data.append("job_holder",$('input[name=job_holder]:checked').val());
+            form_data.append("organization_name",$("#organization_name").val());
+            form_data.append("job_holder_department",$("#job_holder_department").val());
+            form_data.append("designation",$("#designation").val());
+            form_data.append("employee_id_no",$("#employee_id_no").val());
+            form_data.append("student",$('input[name=student]:checked').val());
+            form_data.append("institution_name",$("#institution_name").val());
+            form_data.append("student_department",$("#student_department").val());
+            form_data.append("student_id_card_no",$("#student_id_card_no").val());
+            form_data.append("receive_sales_commission_by",$('input[name=receive_sales_commission_by]:checked').val());
+            form_data.append("bank",$("#bank").val());
+            form_data.append("branch",$("#branch").val());
+            form_data.append("account_no",$("#account_no").val());
+            form_data.append("bKash_account_type",$('input[name=bKash_account_type]:checked').val());
+            form_data.append("bKash_mobile_no",$("#bKash_mobile_no").val());
+            form_data.append("is_same_as_present_address",$('input[name=is_same_as_present_address]:checked').val());
+            form_data.append("permanent_address_premise_ownership",$("#permanent_address_premise_ownership").val());
+            form_data.append("permanent_address_division",$("#permanent_address_division").val());
+            form_data.append("permanent_address_district",$("#permanent_address_district").val());
+            form_data.append("permanent_address_po",$("#permanent_address_po").val());
+            form_data.append("permanent_address_road_no",$("#permanent_address_road_no").val());
+            form_data.append("permanent_address_house_no",$("#permanent_address_house_no").val());
+            form_data.append("permanent_address_flat_no",$("#permanent_address_flat_no").val());
+            if( document.getElementById("upload_picture").files.length != 0){
+                form_data.append("upload_picture",$("#upload_picture")[0].files[0]);
+            }
+            form_data.append("_token",$('input[name=_token]').val());
+            form_data.append("application_no",$('input[name=application_no]').val());
+            form_data.append("button_name",$('input[name=button_name]').val());
+            form_data.append("step",333);
             $.ajax({
                 type: form_method,
                 url: form_action,
@@ -885,8 +957,9 @@ $('.receive_sales_commission_by_flag_Bank').css('display', '{{ $application_deta
                         $('.validation_error_msg').append(savemsg);
 
                         if (datatxt == 'Submit') {
-                            $("#"+enable_steps_id[0]+"_tab").trigger("click");
+                            disabledAllField();
                         }
+
                         $('#ifa_registration_form_step_' + step).find('input[name="application_no"]').val(application_no);
                         $('#ifa_registration_form_step_' + step).find('input[name="step"]').val(step);
                     }

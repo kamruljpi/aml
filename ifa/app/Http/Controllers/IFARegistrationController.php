@@ -54,8 +54,506 @@ class IFARegistrationController extends Controller {
 		$application_no = $request->input('application_no');
 		$step = $request->input('step');
 		$userName = '';
+		if($step == 333){
 
-		if ($step == 1 && $application_no != 0) {
+			// if($application_no != 0){
+			// 	$mobile_no_uc = 'required|digits:10|unique:tbl_ifa_registrations,application_no,'.$application_no;
+			// 	$email_uc = 'required|email|max:200|unique:tbl_ifa_registrations,application_no,'.$application_no;
+			// }else{
+			// 	$mobile_no_uc = 'required|digits:10|unique:tbl_ifa_registrations,mobile_no';
+			// 	$email_uc = 'required|email|max:200|unique:tbl_ifa_registrations,email';
+			// }
+
+			$validMessage = [
+				'first_name.required' => 'First Name is required.',
+				'last_name.required' => 'Last Name is required.',
+				'middle_name.required' => 'Middle Name is required.',
+				'father_name.required' => 'Father Name is required.',
+				'mother_name.required' => 'Mother Name is required.',
+				'mobile_no.required' => 'Mobile No is required.',
+				'mobile_no.unique' => 'Mobile No must be unique.',
+				'email.required' => 'Email is required.',
+				'email.unique' => 'Email Must be unique.',
+				'validation.upload_picture' => 'Please check your image size(Max 1MB) or type(Only jpeg, jpg,png).',
+				'validation.upload_picture' => 'Please check your image size(Max 1MB) or type(Only jpeg, jpg,png).',
+				'upload_picture' => 'Please check your image size(Max 1MB) or type(Only jpeg, jpg,png).',
+				'present_address_flat_no.required' => 'Present Address flat_no input value is wrong.',
+				'present_address_house_no.required' => 'Present address house_no input value is wrong.',
+				'present_address_road_no.required' => 'Present address road_no input value is wrong.',
+				'present_address_division.required' => 'Present address division input value is wrong.',
+				'present_address_district.required' => 'Present address district input value is wrong.',
+				'present_address_po.required' => 'Present address po input value is wrong.',
+				'present_address_premise_ownership.required' => 'Present address premise_ownership input value is wrong.',
+				'permanent_address_flat_no.required' => 'Permanent address_flat_no input value is wrong.',
+				'permanent_address_house_no.required' => 'Permanent address_house_no input value is wrong.',
+				'permanent_address_road_no.required' => 'Permanent address_road_no input value is wrong.',
+				'permanent_address_division.required' => 'Permanent address_division input value is wrong.',
+				'permanent_address_district.required' => 'Permanent address_district input value is wrong.',
+				'permanent_address_po.required' => 'Permanent address_po input value is wrong.',
+				'permanent_address_premise_ownership.required' => 'Permanent address_premise_ownership input value is wrong.',
+				'others_user_type.required' => 'Others User Type is required.',
+				'others_nationality.required' => 'Others Nationality is required.',
+				'new_password.required' => 'New Password is required.',
+				'confirm_password.required' => 'Confirm Password is required.',
+				'validation.confirmed' => 'New Password and Confirm Password does not match.',
+				'validation.date_format' => 'Incorrect Date format.',
+				'organization_name.required' => 'organization_name is required',
+				'job_holder_department.required' => 'employee_id_no is required',
+				'designation.required' => 'institution_name is required',
+				'employee_id_no.required' => 'employee_id_no is required',
+				'institution_name.required' => 'Institution Name is required',
+				'student_department.required' => 'Student Department is required',
+				'student_id_card_no.required' => 'Student ID Card No. is required',
+				'bank.required' => 'bank is required',
+				'account_no.required' => 'account_no is required',
+				'branch.required' => 'Branch is required',
+				'bKash_account_type.required' => 'bKash_account_type is required',
+				'bKash_mobile_no.required' => 'bKash_mobile_no is required',
+				'validation.required' => '',
+			];
+			$datas = $request->all();
+			
+			$validator = Validator::make($datas,
+				['first_name' => 'required|max:70',
+					'last_name' => 'required|max:70',
+					'date_of_birth' => 'required',
+					// 'mobile_no' => $mobile_no_uc,
+					// 'email' => $email_uc,
+					'national_id_card_no' => 'required|max:25',
+					'middle_name' => 'sometimes|max:70',
+					'father_name' => 'sometimes|max:254',
+					'mother_name' => 'sometimes|max:254',
+					'upload_picture' => 'sometimes|image|mimes:jpeg,jpg,png|max:1024',
+					'present_address_flat_no' => 'sometimes|max:254',
+					'present_address_house_no' => 'sometimes|max:254',
+					'present_address_road_no' => 'sometimes|max:254',
+					'present_address_division' => 'sometimes',
+					'present_address_district' => 'sometimes',
+					'present_address_po' => 'sometimes',
+					'present_address_premise_ownership' => 'sometimes|max:254',
+					'permanent_address_flat_no' => 'sometimes|max:254',
+					'permanent_address_house_no' => 'sometimes|max:254',
+					'permanent_address_road_no' => 'sometimes|max:254',
+					'permanent_address_division' => 'sometimes',
+					'permanent_address_district' => 'sometimes',
+					'permanent_address_po' => 'sometimes',
+					'permanent_address_premise_ownership' => 'sometimes|max:254',
+					'organization_name' => 'sometimes|max:254',
+					'job_holder_department' => 'sometimes|max:254',
+					'designation' => 'sometimes|max:254',
+					'employee_id_no' => 'sometimes|max:30',
+					'institution_name' => 'sometimes|max:254',
+					'student_department' => 'sometimes|max:254',
+					'student_id_card_no' => 'sometimes|max:30',
+					'bank' => 'sometimes|max:254',
+					'account_no' => 'sometimes|max:254',
+					'branch' => 'sometimes|max:254',
+					'bKash_account_type' => 'sometimes|max:254',
+					'bKash_mobile_no' => 'sometimes|max:10',
+				],
+				$validMessage
+			);
+
+			if ($validator->fails()) {
+				$validationError = $validator->messages();
+				$return_data_arr = [
+					'has_error' => TRUE,
+					'error_messages' => $validationError,
+				];
+				return $return_data_arr;
+			}
+			if($application_no != 0){
+				$mobileNoCheck = IFARegistration::get()->where('mobile_no', $request->input('mobile_no'))->where('application_no', '<>', $application_no)->count();
+			}else{
+				$mobileNoCheck = IFARegistration::get()->where('mobile_no', $request->input('mobile_no'))->count();
+			}
+
+			
+			if ($mobileNoCheck > 0) {
+				$return_data_arr = [
+					'has_error' => TRUE,
+					'error_messages' => 'Mobile number is already exists',
+				];
+				return $return_data_arr;
+			}
+
+			if($application_no != 0){
+				$emailCheck = IFARegistration::get()->where('email', $request->input('email'))->where('application_no', '<>', $application_no)->count();
+			}else{
+				$emailCheck = IFARegistration::get()->where('email', $request->input('email'))->count();
+			}
+
+			if ($emailCheck > 0) {
+				$return_data_arr = [
+					'has_error' => TRUE,
+					'error_messages' => 'Email address is already exists.',
+				];
+				return $return_data_arr;
+			}
+
+			// if ($request->input('user_type') == -1) {
+			// 	$validMessage = [
+			// 		'others_user_type.required' => 'Others User Type is required',
+			// 	];
+			// 	$datas = $request->all();
+
+			// 	$validator = Validator::make($datas, [
+			// 		'others_user_type' => 'required|max:254',
+			// 	], $validMessage
+			// 	);
+
+			// 	if ($validator->fails()) {
+			// 		$validationError = $validator->messages();
+			// 		$return_data_arr = [
+			// 			'has_error' => TRUE,
+			// 			'error_messages' => $validationError,
+			// 		];
+			// 		return $return_data_arr;
+			// 	}
+			// }
+			// if ($request->input('nationality') == -1) {
+			// 	$validMessage = [
+			// 		'others_nationality.required' => 'Others User Type is required',
+			// 	];
+			// 	$datas = $request->all();
+
+			// 	$validator = Validator::make($datas, [
+			// 		'others_nationality' => 'required|max:254',
+			// 	], $validMessage
+			// 	);
+
+			// 	if ($validator->fails()) {
+			// 		$validationError = $validator->messages();
+			// 		$return_data_arr = [
+			// 			'has_error' => TRUE,
+			// 			'error_messages' => $validationError,
+			// 		];
+			// 		return $return_data_arr;
+			// 	}
+			// }
+
+			// if ($request->input('job_holder') == 'yes') {
+			// 	$validMessage = [
+			// 		'organization_name.required' => 'organization_name is required',
+			// 		'job_holder_department.required' => 'employee_id_no is required',
+			// 		'designation.required' => 'institution_name is required',
+			// 		'employee_id_no.required' => 'employee_id_no is required',
+			// 	];
+			// 	$datas = $request->all();
+
+			// 	$validator = Validator::make($datas,
+			// 		[
+			// 			'organization_name' => 'required|max:254',
+			// 			'job_holder_department' => 'required|max:254',
+			// 			'designation' => 'required|max:254',
+			// 			'employee_id_no' => 'required|max:30',
+			// 		],
+			// 		$validMessage
+			// 	);
+
+			// 	if ($validator->fails()) {
+			// 		$validationError = $validator->messages();
+			// 		$return_data_arr = [
+			// 			'has_error' => TRUE,
+			// 			'error_messages' => $validationError,
+			// 		];
+			// 		return $return_data_arr;
+			// 	}
+			// }
+
+			// if ($request->input('student') == 'yes') {
+
+			// 	$validMessage = [
+			// 		'institution_name.required' => 'Institution Name is required',
+			// 		'student_department.required' => 'Student Department is required',
+			// 		'student_id_card_no.required' => 'Student ID Card No. is required',
+			// 	];
+			// 	$datas = $request->all();
+
+			// 	$validator = Validator::make($datas,
+			// 		[
+			// 			'institution_name' => 'required|max:254',
+			// 			'student_department' => 'required|max:254',
+			// 			'student_id_card_no' => 'required|max:30',
+			// 		],
+			// 		$validMessage
+			// 	);
+
+			// 	if ($validator->fails()) {
+			// 		$validationError = $validator->messages();
+			// 		$return_data_arr = [
+			// 			'has_error' => TRUE,
+			// 			'error_messages' => $validationError,
+			// 		];
+			// 		return $return_data_arr;
+			// 	}
+			// }
+
+			// if ($request->receive_sales_commission_by == 'Bank') {
+			// 	$validMessage = [
+			// 		'bank.required' => 'bank is required',
+			// 		'account_no.required' => 'account_no is required',
+			// 		'branch.required' => 'Branch is required',
+			// 	];
+			// 	$datas = $request->all();
+			// 	// $validator_arr = [
+			// 	$validator = Validator::make($datas,
+			// 		[
+			// 			'bank' => 'required|max:254',
+			// 			'account_no' => 'required|max:254',
+			// 			'branch' => 'required|max:254',
+			// 		],
+			// 		$validMessage
+			// 	);
+
+			// 	if ($validator->fails()) {
+			// 		$validationError = $validator->messages();
+			// 		$return_data_arr = [
+			// 			'has_error' => TRUE,
+			// 			'error_messages' => $validationError,
+			// 		];
+			// 		return $return_data_arr;
+			// 	}
+			// } else if ($request->receive_sales_commission_by == 'bKash') {
+			// 	$validMessage = [
+			// 		'bKash_account_type.required' => 'bKash_account_type is required',
+			// 		'bKash_mobile_no.required' => 'bKash_mobile_no is required',
+			// 	];
+			// 	$datas = $request->all();
+
+			// 	$validator = Validator::make($datas,
+			// 		[
+			// 			'bKash_account_type' => 'required|max:254',
+			// 			'bKash_mobile_no' => 'required|max:10',
+			// 		],
+			// 		$validMessage
+			// 	);
+
+			// 	if ($validator->fails()) {
+			// 		$validationError = $validator->messages();
+			// 		$return_data_arr = [
+			// 			'has_error' => TRUE,
+			// 			'error_messages' => $validationError,
+			// 		];
+			// 		return $return_data_arr;
+			// 	}
+
+			// }
+
+			try {
+
+				$insert_arr = [
+					'first_name' => $request->input('first_name'),
+					'middle_name' => $request->input('middle_name'),
+					'last_name' => $request->input('last_name'),
+					'mobile_no' => $request->input('mobile_no'),
+					'email' => $request->input('email'),
+					'date_of_birth' => $request->input('date_of_birth'),
+					'national_id_card_no' => $request->input('national_id_card_no'),
+					'father_name' => $request->input('father_name'),
+					'mother_name' => $request->input('mother_name'),
+					'nationality' => $request->input('nationality'),
+					'others_nationality' => $request->input('others_nationality'),
+					'user_type_id' => $request->input('user_type'),
+					'others_user_type' => $request->input('others_user_type'),
+					'pre_addr_flat_no' => $request->input('present_address_flat_no'),
+					'pre_addr_house_no' => $request->input('present_address_house_no'),
+					'pre_addr_road_no' => $request->input('present_address_road_no'),
+					'pre_addr_division_id' => $request->input('present_address_division'),
+					'pre_addr_district_id' => $request->input('present_address_district'),
+					'pre_addr_ps_id' => $request->input('present_address_po'),
+					'pre_addr_premise_ownership' => $request->input('present_address_premise_ownership'),
+					'is_same_as_present_address' => $request->input('is_same_as_present_address') == 'yes' ? 1 : 0,
+					'per_addr_flat_no' => $request->input('permanent_address_flat_no'),
+					'per_addr_house_no' => $request->input('permanent_address_house_no'),
+					'per_addr_road_no' => $request->input('permanent_address_road_no'),
+					'per_addr_division_id' => $request->input('permanent_address_division'),
+					'per_addr_district_id' => $request->input('permanent_address_district'),
+					'per_addr_ps_id' => $request->input('permanent_address_po'),
+					'per_addr_premise_ownership' => $request->input('permanent_address_premise_ownership'),
+					'training_status' => 'Fail',
+					'button_presses' => $request->input('button_name'),
+					'latest_degree' => $request->input('latest_degree'),
+					'last_educational_institution' => $request->input('last_educational_institution'),
+					'is_job_holder' => $request->input('job_holder') == 'yes' ? 1 : 0,
+					'organization_name' => $request->input('organization_name'),
+					'employee_id_no' => $request->input('employee_id_no'),
+					'designation' => $request->input('designation'),
+					'job_holder_department' => $request->input('job_holder_department'),
+					'is_student' => $request->input('student') == 'yes' ? 1 : 0,
+					'institution_name' => $request->input('institution_name'),
+					'student_department' => $request->input('student_department'),
+					'student_id_card_no' => $request->input('student_id_card_no'),
+					'receive_sales_commission_by' => $request->input('receive_sales_commission_by'),
+					'bank_id' => $request->input('bank'),
+					'bank_branch_id' => $request->input('branch'),
+					'bank_account_no' => $request->input('account_no'),
+					'bKash_acc_type' => $request->input('bKash_account_type'),
+					'bKash_mobile_no' => $request->input('bKash_mobile_no'),
+				];
+
+				if($request->input('is_same_as_present_address') == 'yes'){
+					
+					$insert_arr['per_addr_flat_no'] = $request->input('present_address_flat_no');
+					$insert_arr['per_addr_house_no'] = $request->input('present_address_house_no');
+					$insert_arr['per_addr_road_no'] = $request->input('present_address_road_no');
+					$insert_arr['per_addr_division_id'] = (int)$request->input('present_address_division');
+					$insert_arr['per_addr_district_id'] = (int)$request->input('present_address_district');
+					$insert_arr['per_addr_ps_id'] = $request->input('present_address_po');
+					$insert_arr['per_addr_premise_ownership'] = (int)$request->input('present_address_premise_ownership');
+				}
+
+				if ($request->input('job_holder') == 'no') {
+					$insert_arr['organization_name'] = '';
+					$insert_arr['job_holder_department'] = '';
+					$insert_arr['designation'] = '';
+					$insert_arr['employee_id_no'] = '';
+				}
+
+				if ($request->input('student') == 'no') {
+					$insert_arr['institution_name'] = '';
+					$insert_arr['student_department'] = '';
+					$insert_arr['student_id_card_no'] = '';
+				}
+
+				if ($request->input('receive_sales_commission_by') == 'Bank') {
+					$insert_arr['bKash_acc_type'] =  '';
+					$insert_arr['bKash_mobile_no'] =  '';
+				}
+
+				if ($request->input('receive_sales_commission_by') == 'bKash') {
+					$insert_arr['bank_id'] =  '';
+					$insert_arr['bank_branch_id'] =  '';
+					$insert_arr['bank_account_no'] =  '';
+				}
+
+				if ($request->hasFile('upload_picture')) {
+						
+					$upload_picture_extension = File::extension($request->file('upload_picture')->getClientOriginalName());
+					if ($upload_picture_extension == "png" || $upload_picture_extension == "jpg" || $upload_picture_extension == "jpeg") {
+						$upload_picture_size = $request->file('upload_picture')->getClientSize();
+						if($upload_picture_size < 1048577){
+							if ($request->file('upload_picture')->isValid()) {
+								
+							}else{
+								$return_data_arr = [
+									'has_error' => TRUE,
+									'error_messages' => "Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)",
+								];
+							}
+
+						}else{
+							$return_data_arr = [
+								'has_error' => TRUE,
+								'error_messages' => "Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)",
+							];
+						}
+					}else{
+						$return_data_arr = [
+							'has_error' => TRUE,
+							'error_messages' => "Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)",
+						];
+					}
+				}
+				// print '<pre>';
+				// print_r($insert_arr);
+				// print '</pre>';
+				// die();
+				if(isset($return_data_arr['has_error']) && !empty($return_data_arr['has_error'])){
+					return response()->json($return_data_arr);
+				}else{
+					$digits = 5;
+					$password = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
+
+					$app_number = $request->input('application_no');
+					$checksubmitstatus = $this->checkSubmitStatus($request);
+					if($request->input('application_no') != 0){
+						$application_no = $request->input('application_no');
+						DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update($insert_arr);
+
+						DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['application_status' => $checksubmitstatus]);
+
+					}else{
+
+						$insert_arr['password'] =  Hash::make($password);
+						$application_no = DB::table('tbl_ifa_registrations')->insertGetId($insert_arr);
+
+						DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['application_status' => $checksubmitstatus]);
+
+					}
+					
+					$userName = strtolower($request->input('first_name')) . $application_no;
+
+					DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['user_name' => $userName]);
+
+					if ($request->hasFile('upload_picture')) {
+
+						$file = $request->file('upload_picture');
+						$file->move(public_path('idlc_aml_images/ifa_registrations'), $file->getClientOriginalName());
+						$oldfile = public_path('idlc_aml_images/ifa_registrations/' . $file->getClientOriginalName());
+						$ext = explode('.', $file->getClientOriginalName());
+						$newfile = public_path('idlc_aml_images/ifa_registrations').'/' . $application_no . '.' . $ext[1];
+
+						File::copy($oldfile, $newfile);
+
+						DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['image_ext' => $ext[1]]);
+
+					}
+
+					$mobile_no = $request->input('mobile_no');
+
+					if($request->input('application_no') == 0){
+						$request->session()->put('ifa_registration_password', $password);
+					}
+
+					$request->session()->put('ifa_registration_user_name', $userName);
+
+					$request->session()->put('ifa_registration_mobile_no', $mobile_no);
+					if($request->input('application_no') == 0){
+						$xpassword = $password;
+						$xapplication_password = $password;
+					}
+					$return_data_arr = [
+						'has_success' => TRUE,
+						'success_messages' => [
+							'application_no' => $application_no,
+							'user_name' => $userName,
+							'mobile_no' => $mobile_no,
+							'password' => $xpassword,
+							'application_password' => $xapplication_password,
+							'enable_step' => 2,
+							'enable_steps_id' => [
+								'educational_professional_information',
+							],
+							'disable_steps_id' => [
+								'personal_profile',
+								'bank_alternate_channel_information',
+							],
+						],
+					];
+
+					$mailArr = [
+						'receiver_email' => $request->input('email'),
+						'receiver_full_name' => $request->input('first_name') . ' ' . $request->input('last_name'),
+						'sender_email' => 'idlc_1@gmail.com',
+						'sender_full_name' => 'IDLC',
+						'subject' => 'IFA Registraion',
+					];
+
+					Mail::send('emails.ifa_registration', ['mobile_no' => $request->input('mobile_no'), 'password' => $password, 'application_no' => $application_no], function ($m) use ($mailArr) {
+						$m->from($mailArr['sender_email'], $mailArr['sender_full_name']);
+						$m->to($mailArr['receiver_email'], $mailArr['receiver_full_name'])->subject($mailArr['subject']);
+					});
+
+				}
+
+				return response()->json($return_data_arr);
+
+			} catch (\Exception $ex) {
+				return response()->json($ex->getMessage());
+			}
+		
+		}else if ($step == 1 && $application_no != 0) {
 
 			$validMessage = [
 				'first_name.required' => 'First Name is required.',
@@ -93,7 +591,7 @@ class IFARegistrationController extends Controller {
 				['first_name' => 'required|max:70',
 					'last_name' => 'required|max:70',
 					'date_of_birth' => 'required',
-					'national_id_card_no' => 'required|max:25|unique:tbl_ifa_registrations,national_id_card_no,' . $application_no . ',application_no',
+					'national_id_card_no' => 'required|max:25',
 					'middle_name' => 'sometimes|max:70',
 					'father_name' => 'sometimes|max:254',
 					'mother_name' => 'sometimes|max:254',
@@ -240,6 +738,17 @@ class IFARegistrationController extends Controller {
 					$insert_arr['password'] = Hash::make($request->input('password'));
 				}
 
+				if($request->input('is_same_as_present_address') == 'yes'){
+
+					$insert_arr['per_addr_flat_no'] = $request->input('pre_addr_flat_no');
+					$insert_arr['per_addr_house_no'] = $request->input('pre_addr_house_no');
+					$insert_arr['per_addr_road_no'] = $request->input('pre_addr_road_no');
+					$insert_arr['per_addr_division_id'] = $request->input('pre_addr_division_id');
+					$insert_arr['per_addr_district_id'] = $request->input('pre_addr_district_id');
+					$insert_arr['per_addr_ps_id'] = $request->input('pre_addr_ps_id');
+					$insert_arr['per_addr_premise_ownership'] = $request->input('pre_addr_premise_ownership');
+				}
+
 				DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update($insert_arr);
 				DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['application_status' => 'PartiallyCompleted']);
 
@@ -351,10 +860,10 @@ class IFARegistrationController extends Controller {
 			$validator = Validator::make($datas,
 				['first_name' => 'required|max:70',
 					'last_name' => 'required|max:70',
-					'mobile_no' => 'required|digits:11|unique:tbl_ifa_registrations,mobile_no',
+					'mobile_no' => 'required|digits:10|unique:tbl_ifa_registrations,mobile_no',
 					'email' => 'required|email|max:200|unique:tbl_ifa_registrations,email',
 					'date_of_birth' => 'required',
-					'national_id_card_no' => 'required|max:25|unique:tbl_ifa_registrations,national_id_card_no',
+					'national_id_card_no' => 'required|max:25',
 					'middle_name' => 'sometimes|max:70',
 					'father_name' => 'sometimes|max:254',
 					'mother_name' => 'sometimes|max:254',
@@ -437,7 +946,7 @@ class IFARegistrationController extends Controller {
 					'last_name' => $request->input('last_name'),
 					'mobile_no' => $request->input('mobile_no'),
 					'email' => $request->input('email'),
-					'date_of_birth' => date('Y-m-d', strtotime($request->input('date_of_birth'))),
+					'date_of_birth' => $request->input('date_of_birth'),
 					'national_id_card_no' => $request->input('national_id_card_no'),
 					'father_name' => $request->input('father_name'),
 					'mother_name' => $request->input('mother_name'),
@@ -466,24 +975,25 @@ class IFARegistrationController extends Controller {
 					'button_presses' => $request->input('button_name'),
 				];
 
+				if($request->input('is_same_as_present_address') == 'yes'){
+					
+					$insert_arr['per_addr_flat_no'] = $request->input('pre_addr_flat_no');
+					$insert_arr['per_addr_house_no'] = $request->input('pre_addr_house_no');
+					$insert_arr['per_addr_road_no'] = $request->input('pre_addr_road_no');
+					$insert_arr['per_addr_division_id'] = $request->input('pre_addr_division_id');
+					$insert_arr['per_addr_district_id'] = $request->input('pre_addr_district_id');
+					$insert_arr['per_addr_ps_id'] = $request->input('pre_addr_ps_id');
+					$insert_arr['per_addr_premise_ownership'] = $request->input('pre_addr_premise_ownership');
+				}
+
 				if ($request->hasFile('upload_picture')) {
 						
 					$upload_picture_extension = File::extension($request->file('upload_picture')->getClientOriginalName());
 					if ($upload_picture_extension == "png" || $upload_picture_extension == "jpg" || $upload_picture_extension == "jpeg") {
 						$upload_picture_size = $request->file('upload_picture')->getClientSize();
 						if($upload_picture_size < 1048577){
-
-
 							if ($request->file('upload_picture')->isValid()) {
-								// $file = $request->file('upload_picture');
-								// $file->move(public_path('idlc_aml_images/ifa_registrations'), $file->getClientOriginalName());
-								// $oldfile = public_path('idlc_aml_images/ifa_registrations/' . $file->getClientOriginalName());
-								// $ext = explode('.', $file->getClientOriginalName());
-								// $newfile = public_path('idlc_aml_images/ifa_registrations').'/' . $application_no . '.' . $ext[1];
-
-								// File::copy($oldfile, $newfile);
-
-								// DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['image_ext' => $ext[1]]);
+								
 							}else{
 								$return_data_arr = [
 									'has_error' => TRUE,
@@ -491,7 +1001,6 @@ class IFARegistrationController extends Controller {
 								];
 							}
 
-							
 						}else{
 							$return_data_arr = [
 								'has_error' => TRUE,
@@ -517,18 +1026,18 @@ class IFARegistrationController extends Controller {
 					DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['user_name' => $userName]);
 
 					DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['application_status' => 'PartiallyCompleted']);
+					if ($request->hasFile('upload_picture')) {
+						$file = $request->file('upload_picture');
+						$file->move(public_path('idlc_aml_images/ifa_registrations'), $file->getClientOriginalName());
+						$oldfile = public_path('idlc_aml_images/ifa_registrations/' . $file->getClientOriginalName());
+						$ext = explode('.', $file->getClientOriginalName());
+						$newfile = public_path('idlc_aml_images/ifa_registrations').'/' . $application_no . '.' . $ext[1];
 
+						File::copy($oldfile, $newfile);
+
+						DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['image_ext' => $ext[1]]);
+					}
 					
-					$file = $request->file('upload_picture');
-					$file->move(public_path('idlc_aml_images/ifa_registrations'), $file->getClientOriginalName());
-					$oldfile = public_path('idlc_aml_images/ifa_registrations/' . $file->getClientOriginalName());
-					$ext = explode('.', $file->getClientOriginalName());
-					$newfile = public_path('idlc_aml_images/ifa_registrations').'/' . $application_no . '.' . $ext[1];
-
-					File::copy($oldfile, $newfile);
-
-					DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['image_ext' => $ext[1]]);
-									
 					$mobile_no = $request->input('mobile_no');
 
 					$request->session()->put('ifa_registration_password', $password);
@@ -577,9 +1086,7 @@ class IFARegistrationController extends Controller {
 				return response()->json($ex->getMessage());
 			}
 
-		}
-
-		else if ($step == 2 && $application_no == 0) {
+		}else if ($step == 2 && $application_no == 0) {
 			$return_data_arr = [
 				'has_error' => TRUE,
 				'error_messages' => [
@@ -694,7 +1201,7 @@ class IFARegistrationController extends Controller {
 				],
 			];
 
-		} else if ($step == 3 && $application_no == 0) {
+		}else if ($step == 3 && $application_no == 0) {
 			$return_data_arr = [
 				'has_error' => TRUE,
 				'error_messages' => [
@@ -703,7 +1210,7 @@ class IFARegistrationController extends Controller {
 			];
 			return $return_data_arr;
 		
-		} else if ($step == 3 && $application_no != 0) {
+		}else if ($step == 3 && $application_no != 0) {
 
 			if ($request->receive_sales_commission_by == 'Bank') {
 				$validMessage = [
@@ -740,7 +1247,7 @@ class IFARegistrationController extends Controller {
 				$validator = Validator::make($datas,
 					[
 						'bKash_account_type' => 'required|max:254',
-						'bKash_mobile_no' => 'required|max:11',
+						'bKash_mobile_no' => 'required|max:10',
 					],
 					$validMessage
 				);
@@ -897,7 +1404,7 @@ class IFARegistrationController extends Controller {
 				['first_name' => 'required|max:70',
 					'last_name' => 'required|max:70',
 					'date_of_birth' => 'required',
-					'national_id_card_no' => 'required|max:25|unique:tbl_ifa_registrations,national_id_card_no,' . $application_no . ',application_no',
+					'national_id_card_no' => 'required|max:25',
 					'middle_name' => 'sometimes|max:70',
 					'father_name' => 'sometimes|max:254',
 					'mother_name' => 'sometimes|max:254',
@@ -1042,6 +1549,17 @@ class IFARegistrationController extends Controller {
 					'password' => $xnew_password,
 					'button_presses' => $request->input('button_name'),
 				];
+
+				if($request->input('is_same_as_present_address') == 'yes'){
+					
+					$insert_arr['per_addr_flat_no'] = $request->input('pre_addr_flat_no');
+					$insert_arr['per_addr_house_no'] = $request->input('pre_addr_house_no');
+					$insert_arr['per_addr_road_no'] = $request->input('pre_addr_road_no');
+					$insert_arr['per_addr_division_id'] = $request->input('pre_addr_division_id');
+					$insert_arr['per_addr_district_id'] = $request->input('pre_addr_district_id');
+					$insert_arr['per_addr_ps_id'] = $request->input('pre_addr_ps_id');
+					$insert_arr['per_addr_premise_ownership'] = $request->input('pre_addr_premise_ownership');
+				}
 
 				if ($request->has('previous_password') && !is_null($request->input('previous_password'))) {
 
@@ -1252,7 +1770,7 @@ class IFARegistrationController extends Controller {
 				$validator = Validator::make($datas,
 					[
 						'bKash_account_type' => 'required|max:254',
-						'bKash_mobile_no' => 'required|max:11',
+						'bKash_mobile_no' => 'required|max:10',
 					],
 					$validMessage
 				);
@@ -1265,7 +1783,6 @@ class IFARegistrationController extends Controller {
 					];
 					return $return_data_arr;
 				}
-
 			}
 			$insert_arr = [
 				'receive_sales_commission_by' => $request->input('receive_sales_commission_by'),
@@ -1286,7 +1803,7 @@ class IFARegistrationController extends Controller {
 				$insert_arr['bank_branch_id'] =  '';
 				$insert_arr['bank_account_no'] =  '';
 			}
-			
+
 			DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update($insert_arr);
 			$return_data_arr = [
 				'has_success' => TRUE,
@@ -1297,8 +1814,85 @@ class IFARegistrationController extends Controller {
 			];
 			DB::table('tbl_ifa_registrations')->where('application_no', $application_no)->update(['application_status' => 'Submitted']);
 		}
-
 		return response()->json($return_data_arr);
 	}
+	public function checkSubmitStatus(Request $request){
+		$status = 'PartiallyCompleted';
+	    if(
+	        $request->input("#first_name") != '' &&
+	        $request->input("#middle_name") != '' &&
+	        $request->input("#last_name") != '' &&
+	        $request->input("#mobile_no") != '' &&
+	        $request->input("#email") != '' &&
+	        $request->input("#father_name") != '' &&
+	        $request->input("#mother_name") != '' &&
+	        $request->input("#nationality") != '' &&
+	        $request->input("#date_of_birth") != '' &&
+	        $request->input("#national_id_card_no") != '' &&
+	        $request->input("#user_type") != '' &&
+	        $request->input("#present_address_premise_ownership") != '' &&
+	        $request->input("#present_address_division") != '' &&
+	        $request->input("#present_address_district") != '' &&
+	        $request->input("#present_address_po") != '' &&
+	        $request->input("#present_address_road_no") != '' &&
+	        $request->input("#present_address_house_no") != '' &&
+	        $request->input("#present_address_flat_no") != '' &&
 
+	        $request->input("#latest_degree") != '' &&
+	        $request->input("#last_educational_institution") != '' &&
+	        $request->input('is_same_as_present_address') != ''
+	        ){
+	            if(
+	                (($request->input('job_holder') == 'yes') &&
+	                            ($request->input("#organization_name") != '' &&
+	                            $request->input("#job_holder_department") != '' &&
+	                            $request->input("#designation") != '' &&
+	                            $request->input("#employee_id_no") != '')) || 
+	                ($request->input('job_holder') == 'no')
+	             ){
+	                if(
+	                    (($request->input('student') == 'yes') &&
+	                                ($request->input("#institution_name") != '' &&
+	                                $request->input("#student_department") != '' &&
+	                                $request->input("#student_id_card_no") != '')) || 
+	                    ($request->input('student') == 'no')
+
+	                 ){
+	                    if(
+	                        (($request->input('receive_sales_commission_by') == 'Bank') &&
+	                                    ($request->input("#bank") != '' &&
+	                                    $request->input("#branch") != '' &&
+	                                    $request->input("#account_no") != '')) || 
+	                        ($request->input('receive_sales_commission_by') == 'bKash' &&
+	                            $request->input('bKash_account_type') != '' &&
+	                            $request->input("#bKash_mobile_no") != ''
+	                            )
+	                     ){
+	                        if(($request->input('is_same_as_present_address') == 'no' && 
+	                            $request->input("#permanent_address_premise_ownership") != '' &&
+	                            $request->input("#permanent_address_division") != '' &&
+	                            $request->input("#permanent_address_district") != '' &&
+	                            $request->input("#permanent_address_po") != '' &&
+	                            $request->input("#permanent_address_road_no") != '' &&
+	                            $request->input("#permanent_address_house_no") != '' &&
+	                            $request->input("#permanent_address_flat_no") != '') || ($request->input('is_same_as_present_address') == 'yes')
+	                            ){
+	                            $status = 'Submitted';
+	                        }else{
+	                            $status = 'PartiallyCompleted';
+	                        }
+	                    }else{
+	                        $status = 'PartiallyCompleted';
+	                    }
+	                }else{
+	                    $status = 'PartiallyCompleted';
+	                }
+	            }else{
+	                $status = 'PartiallyCompleted';
+	            }
+	    }else{
+	        $status = 'PartiallyCompleted';
+	    }
+	    return $status;
+	}
 }

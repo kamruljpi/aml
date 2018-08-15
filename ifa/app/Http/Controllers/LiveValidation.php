@@ -15,11 +15,11 @@ class LiveValidation extends Controller {
 				'message' => 'Empty Value is not Allowed.',
 			];
 		}
-		if (strlen($req->mobile_number) != 11) {
+		if (strlen($req->mobile_number) != 10) {
 			return [
 				'type' => 'mobile_number',
 				'status' => 'exists',
-				'message' => 'Only Eleven Digit are allowed.',
+				'message' => 'Only Ten Digit are allowed.',
 			];
 		}
 		if (!is_numeric($req->mobile_number)) {
