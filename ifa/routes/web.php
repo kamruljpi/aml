@@ -33,7 +33,6 @@ Route::group(
 			'before' => 'csrf',
 			'as' => 'language-chooser',
 			'uses' => 'Trans\TranslationController@changeLanguage',
-
 		));
 
 		Route::get('/search_trans_key/', array(

@@ -1,4 +1,4 @@
-<?php //echo public_path();exit;                                                     ?>
+<?php                                                 ?>
 
 @extends('layouts.idlc_aml.app')
 @section('content')
@@ -237,7 +237,9 @@ if (isset($user_types)) {
                                 </div>
                             </div>
                             <div class="col-sm-3 uploaded_picture_preview_div">
-                                <img id="uploaded_picture_preview" src="{{ asset('ifa/public/idlc_aml_images/ifa_registrations/' . $application_details->application_no .'.'. $application_details->image_ext) }}" alt="Uploaded Picture Preview" width="100" />
+                                @if(!empty($application_details->image_ext)) 
+                                  <img id="uploaded_picture_preview" src="{{ asset('ifa/public/idlc_aml_images/ifa_registrations/' . $application_details->application_no .'.'. $application_details->image_ext) }}" alt="Uploaded Picture Preview" width="100" />
+                                @endif
                             </div>
                         </div>
 
@@ -333,17 +335,17 @@ if (isset($divisions)) {
                                                 <div class="form-group">
                                                     <label for="present_address_district">District</label>
                                                     <select class="form-control district_id" id="present_address_district" name="present_address_district">
-                                                        <option value="0">Select any</option>
+                                                        <option value="0">Select District</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label for="present_address_po">Thana</label>
-                                                    <input type="text" class="form-control" id="present_address_po" name="present_address_po" placeholder="Thana" value="{{ $application_details->pre_addr_ps_id }}">
-                                                    {{-- <select class="form-control thana_id" id="present_address_po" name="present_address_po">
-                                                        <option value="0">Select any</option>
-                                                    </select> --}}
+                                                   {{--  <input type="text" class="form-control" id="present_address_po" name="present_address_po" placeholder="Thana" value="{{ $application_details->pre_addr_ps_id }}"> --}}
+                                                    <select class="form-control thana_id" id="present_address_po" name="present_address_po">
+                                                        <option value="0">Select Thana</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -439,10 +441,10 @@ if (isset($divisions)) {
                                             <div class="col-sm-3">
                                                 <div class="form-group is_same_as_present_address_flag_yes">
                                                     <label for="permanent_address_po">Thana</label>
-                                                    <input type="text" class="form-control" id="permanent_address_po" name="permanent_address_po" value="{{ $application_details->per_addr_ps_id }}" placeholder="Thana">
-                                                    {{-- <select class="form-control thana_id" id="permanent_address_po" name="permanent_address_po">
-                                                        <option value="0">Select any</option>
-                                                    </select> --}}
+                                                    {{-- <input type="text" class="form-control" id="permanent_address_po" name="permanent_address_po" value="{{ $application_details->per_addr_ps_id }}" placeholder="Thana"> --}}
+                                                    <select class="form-control thana_id" id="permanent_address_po" name="permanent_address_po">
+                                                        <option value="0">Select Thana</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -793,11 +795,14 @@ if (isset($banks)) {
                 }else{
                     $('.validation_error_msg').empty();
                     $('.alert-danger').hide();
+                    $('.alert-success').hide();
                     $('.modal .alert-danger').show();
                     $('#unique_input_error').modal('show');
                     $('.validation_error_msg').append("You must need to fill up present address.");
                     $("#is_same_as_present_address_no").prop("checked", true);
                 }
+            }else{
+                $('.is_same_as_present_address_flag_yes').css('display','block');
             }
         });
 
@@ -805,12 +810,23 @@ if (isset($banks)) {
         $('input[type=radio][name=job_holder]').change(function () {
             var flag = this.value;
             $('.job_holder_flag_yes').css('display', (flag === 'yes' ? 'block' : 'none'));
+            if(flag == 'no'){
+                $("#organization_name").val("");
+                $("#designation").val("");
+                $("#employee_id_no").val("");
+                $("#job_holder_department").val("");
+            }
         });
 
 
         $('input[type=radio][name=student]').change(function () {
             var flag = this.value;
             $('.student_flag_yes').css('display', (flag === 'yes' ? 'block' : 'none'));
+            if(flag == 'no'){
+                $("#student_id_card_no").val("");
+                $("#institution_name").val("");
+                $("#student_department").val("");
+            }
         });
 
 
@@ -897,6 +913,11 @@ $('.receive_sales_commission_by_flag_Bank').css('display', '{{ $application_deta
             form_data.append("_token",$('input[name=_token]').val());
             form_data.append("application_no",$('input[name=application_no]').val());
             form_data.append("button_name",$('input[name=button_name]').val());
+            if(datatxt == 'Submit'){
+                form_data.append("application_status",'Submitted');
+            }else{
+                form_data.append("application_status",'PartiallyCompleted');
+            }
             form_data.append("step",333);
             $.ajax({
                 type: form_method,
@@ -915,12 +936,17 @@ $('.receive_sales_commission_by_flag_Bank').css('display', '{{ $application_deta
                         $.each(response.error_messages, function (key, value) {
                             if(value == 'validation.uploaded'){
                                 errottext += '<li>Please check your image size or type.</li>';
+                            }else if(key == 'date_of_birth'){
+                                errottext += '<li>Date Of Birth is required.</li>';
+                            }else if(key == 'national_id_card_no'){
+                                errottext += '<li>National ID CARD Number is required.</li>';
                             }else if(value == 'validation.confirmed'){
                                 errottext += '<li>Something Went Wrong.</li>';
+                            }else if(value == 'validation.required'){
+
                             }else{
                                 errottext += '<li>'+value+'</li>';
                             }
-
                         });
                         errottext += '</ul>';
 
@@ -1152,7 +1178,6 @@ $('.receive_sales_commission_by_flag_Bank').css('display', '{{ $application_deta
         $('#nationality').change(function(){
 
             var val = $(this).val();
-            // console.log(val);
             $('.others_nationality_flag_yes').css('display', (val == -1 ? 'block' : 'none'));
         });
         $('.others_nationality_flag_yes').css('display', '{{ $application_details->nationality == -1 ? "block" : "none" }}');
@@ -1253,5 +1278,26 @@ if ($application_details->bank_branch_id != 0) {
 ?>
 
     });
+
 </script>
+    @if(Session::has('firstregmessage'))
+    <script>
+        $(document).ready(function(){
+            var savemsg = "{{ Session::get('firstregmessage') }}";
+            $('.validation_error_msg').empty();
+            $('.alert-danger').hide();
+            $('.modal .alert-danger').show();
+            $('.alert-success').hide();
+            $('#unique_input_error').modal('show');
+            $('.validation_error_msg').append(savemsg);
+        });
+    </script>
+    @endif
+    <?php if($application_details->application_status != 'PartiallyCompleted'){ ?>
+    <script>
+        $(document).ready(function(){
+            disabledAllField();
+         });
+    </script>
+    <?php } ?>
 @endsection
