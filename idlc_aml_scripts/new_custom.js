@@ -564,6 +564,11 @@ function checkSubmitBtnStatus(){
                             $("#permanent_address_house_no").val() != '' &&
                             $("#permanent_address_flat_no").val() != '') || ($('input[name=is_same_as_present_address]:checked').val() == 'yes')
                             ){
+                                // if(document.getElementById("upload_picture").files.length != 0){
+                                //    $('.btn_submit').removeAttr("disabled");
+                                // }else{
+                                    // $(".btn_submit").attr("disabled", true);
+                                // }
                             $('.btn_submit').removeAttr("disabled");
                         }else{
                             $(".btn_submit").attr("disabled", true);

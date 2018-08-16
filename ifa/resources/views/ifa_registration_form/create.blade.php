@@ -292,10 +292,10 @@ if (isset($divisions)) {
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label for="present_address_po">Thana</label>
-                                                    <input type="text" class="form-control" id="present_address_po" name="present_address_po" placeholder="Thana">
-                                                    {{-- <select class="form-control thana_id" id="present_address_po" name="present_address_po">
-                                                        <option value="0">Select any</option>
-                                                    </select> --}}
+                                                    {{-- <input type="text" class="form-control" id="present_address_po" name="present_address_po" placeholder="Thana"> --}}
+                                                    <select class="form-control thana_id" id="present_address_po" name="present_address_po">
+                                                        <option value="0">Select Thana</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -391,10 +391,10 @@ if (isset($divisions)) {
                                             <div class="col-sm-3">
                                                 <div class="form-group is_same_as_present_address_flag_yes">
                                                     <label for="permanent_address_po">Thana</label>
-                                                    <input type="text" class="form-control" id="permanent_address_po" name="permanent_address_po" placeholder="Thana">
-                                                    {{-- <select class="form-control thana_id" id="permanent_address_po" name="permanent_address_po">
-                                                        <option value="0">Select any</option>
-                                                    </select> --}}
+                                                    {{-- <input type="text" class="form-control" id="permanent_address_po" name="permanent_address_po" placeholder="Thana"> --}}
+                                                    <select class="form-control thana_id" id="permanent_address_po" name="permanent_address_po">
+                                                        <option value="0">Select Thana</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -743,17 +743,26 @@ if (isset($banks)) {
                 }else{
                     $('.validation_error_msg').empty();
                     $('.alert-danger').hide();
+                    $('.alert-success').hide();
                     $('.modal .alert-danger').show();
                     $('#unique_input_error').modal('show');
                     $('.validation_error_msg').append("You must need to fill up present address.");
                     $("#is_same_as_present_address_no").prop("checked", true);
                 }
+            }else{
+                $('.is_same_as_present_address_flag_yes').css('display','block');
             }
         });
 
         $('input[type=radio][name=job_holder]').change(function () {
             var flag = this.value;
             $('.job_holder_flag_yes').css('display', (flag === 'yes' ? 'block' : 'none'));
+            if(flag == 'no'){
+                $("#organization_name").val("");
+                $("#designation").val("");
+                $("#employee_id_no").val("");
+                $("#job_holder_department").val("");
+            }
         });
 
         $('input[type=radio][name=student]').change(function () {
@@ -846,6 +855,11 @@ if (isset($banks)) {
                 form_data.append("_token",$('input[name=_token]').val());
                 form_data.append("application_no",$('input[name=application_no]').val());
                 form_data.append("button_name",$('input[name=button_name]').val());
+                if(datatxt == 'Submit'){
+                    form_data.append("application_status",'Submitted');
+                }else{
+                    form_data.append("application_status",'PartiallyCompleted');
+                }
                 form_data.append("step",333);
                 $.ajax({
                     type: form_method,
@@ -907,8 +921,10 @@ session()->put('ifa_registration_success_message', 'Thank you for applying as IF
                             $('#success_message_alert').css('display', 'block');
                             if(response.success_messages.password != null){
                                 var loginfo = "<br>Your User ID(Mobile No) is +880"+response.success_messages.mobile_no+" <br>And Password is "+response.success_messages.password;
+                            }else{
+                                var loginfo = "";
                             }
-                            var savemsg = "Thank you for applying as IFA! Your application has been submitted, an email has been sent to your email address.";
+                            var savemsg = "Thank you for applying as IFA! Your application has been submitted, an email has been sent to your email address."+loginfo;
                             // $('#success_message_msg').html(savemsg);
                             $('.validation_error_msg').empty();
                             $('.alert-danger').show();
@@ -939,9 +955,7 @@ session()->put('ifa_registration_success_message', 'Thank you for applying as IF
             return {
                 init: function () {
                     $('.division_id').on('change', function () {
-
                         var whereToAppend = $(this).closest('div').parent().next().find('.district_id');
-//                        console.log($(this).closest('div').parent().next().attr('class'));
 
                         var selectedValue = $.trim($(this).find(":selected").val());
                         $.ajax({
