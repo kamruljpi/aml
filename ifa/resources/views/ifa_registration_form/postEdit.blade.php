@@ -822,6 +822,11 @@ if (isset($banks)) {
         $('input[type=radio][name=student]').change(function () {
             var flag = this.value;
             $('.student_flag_yes').css('display', (flag === 'yes' ? 'block' : 'none'));
+            if(flag == 'no'){
+                $("#student_id_card_no").val("");
+                $("#institution_name").val("");
+                $("#student_department").val("");
+            }
         });
 
 
@@ -931,12 +936,17 @@ $('.receive_sales_commission_by_flag_Bank').css('display', '{{ $application_deta
                         $.each(response.error_messages, function (key, value) {
                             if(value == 'validation.uploaded'){
                                 errottext += '<li>Please check your image size or type.</li>';
+                            }else if(key == 'date_of_birth'){
+                                errottext += '<li>Date Of Birth is required.</li>';
+                            }else if(key == 'national_id_card_no'){
+                                errottext += '<li>National ID CARD Number is required.</li>';
                             }else if(value == 'validation.confirmed'){
                                 errottext += '<li>Something Went Wrong.</li>';
+                            }else if(value == 'validation.required'){
+
                             }else{
                                 errottext += '<li>'+value+'</li>';
                             }
-
                         });
                         errottext += '</ul>';
 
@@ -1168,7 +1178,6 @@ $('.receive_sales_commission_by_flag_Bank').css('display', '{{ $application_deta
         $('#nationality').change(function(){
 
             var val = $(this).val();
-            // console.log(val);
             $('.others_nationality_flag_yes').css('display', (val == -1 ? 'block' : 'none'));
         });
         $('.others_nationality_flag_yes').css('display', '{{ $application_details->nationality == -1 ? "block" : "none" }}');

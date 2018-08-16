@@ -765,9 +765,15 @@ if (isset($banks)) {
             }
         });
 
+
         $('input[type=radio][name=student]').change(function () {
             var flag = this.value;
             $('.student_flag_yes').css('display', (flag === 'yes' ? 'block' : 'none'));
+            if(flag == 'no'){
+                $("#student_id_card_no").val("");
+                $("#institution_name").val("");
+                $("#student_department").val("");
+            }
         });
 
         $('input[type=radio][name=receive_sales_commission_by]').change(function () {
@@ -872,20 +878,27 @@ if (isset($banks)) {
                         $('.create_validation_error').empty();
                         $('.create_validation_error').css('display','none');
                         $('body').scrollspy({target: '#myScrollspy'});
-
+        // console.log(response);
                         if (response.has_error === true) {
                             var html_err = '';
                             $.each(response.error_messages, function (key, value) {
 
                                 if(value == 'validation.uploaded'){
                                     html_err += '<li><span>Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)</span></li>';
+                                }else if(key == 'national_id_card_no'){
+                                    html_err += '<li><span>National ID CARD Number is required.</span></li>';
+                                }else if(key == 'date_of_birth'){
+                                    html_err += '<li><span>Date Of Birth is required.</span></li>';
                                 }else{
-                                    html_err += '<li><span>'+value+'</span></li>';
-                                }
+                                    if(value == 'validation.required'){
 
+                                    }else{
+                                        html_err += '<li><span>'+value+'</span></li>';
+                                    }
+                                }
                             });
                             if(html_err == ''){
-                                html_err = 'Something went Wrong. Please try Again.';
+                                html_err = 'Something went Wrong. Need to fill up required filled.';
                             }
                             $('.validation_error_msg').empty();
                             $('.alert-danger').show();
@@ -1106,7 +1119,7 @@ session()->put('ifa_registration_success_message', 'Thank you for applying as IF
         });
         $('#nationality').change(function(){
 
-            var val = $(this).val();console.log(val);
+            var val = $(this).val();
             $('.others_nationality_flag_yes').css('display', (val == -1 ? 'block' : 'none'));
         });
 

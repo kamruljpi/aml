@@ -165,33 +165,48 @@ class IFARegistrationController extends Controller {
 				];
 				return $return_data_arr;
 			}
-			if($application_no != 0){
-				$mobileNoCheck = IFARegistration::get()->where('mobile_no', $request->input('mobile_no'))->where('application_no', '<>', $application_no)->count();
-			}else{
-				$mobileNoCheck = IFARegistration::get()->where('mobile_no', $request->input('mobile_no'))->count();
-			}
-
 			
-			if ($mobileNoCheck > 0) {
+			if(empty($request->input('mobile_no'))){
 				$return_data_arr = [
 					'has_error' => TRUE,
-					'error_messages' => 'Mobile number is already exists',
+					'error_messages' => ['Mobile number is Required'],
 				];
 				return $return_data_arr;
-			}
-
-			if($application_no != 0){
-				$emailCheck = IFARegistration::get()->where('email', $request->input('email'))->where('application_no', '<>', $application_no)->count();
 			}else{
-				$emailCheck = IFARegistration::get()->where('email', $request->input('email'))->count();
+				if($application_no != 0){
+					$mobileNoCheck = IFARegistration::get()->where('mobile_no', $request->input('mobile_no'))->where('application_no', '<>', $application_no)->count();
+				}else{
+					$mobileNoCheck = IFARegistration::get()->where('mobile_no', $request->input('mobile_no'))->count();
+				}
+				if ($mobileNoCheck > 0) {
+					$return_data_arr = [
+						'has_error' => TRUE,
+						'error_messages' => ['Mobile number is already exists'],
+					];
+					return $return_data_arr;
+				}
 			}
+			
 
-			if ($emailCheck > 0) {
+			if(empty($request->input('email'))){
 				$return_data_arr = [
 					'has_error' => TRUE,
-					'error_messages' => 'Email address is already exists.',
+					'error_messages' => ['Email address is Required.'],
 				];
 				return $return_data_arr;
+			}else{
+				if($application_no != 0){
+					$emailCheck = IFARegistration::get()->where('email', $request->input('email'))->where('application_no', '<>', $application_no)->count();
+				}else{
+					$emailCheck = IFARegistration::get()->where('email', $request->input('email'))->count();
+				}
+				if ($emailCheck > 0) {
+					$return_data_arr = [
+						'has_error' => TRUE,
+						'error_messages' => ['Email address is already exists.'],
+					];
+					return $return_data_arr;
+				}
 			}
 
 			// if ($request->input('user_type') == -1) {
@@ -441,20 +456,20 @@ class IFARegistrationController extends Controller {
 							}else{
 								$return_data_arr = [
 									'has_error' => TRUE,
-									'error_messages' => "Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)",
+									'error_messages' => ["Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)"],
 								];
 							}
 
 						}else{
 							$return_data_arr = [
 								'has_error' => TRUE,
-								'error_messages' => "Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)",
+								'error_messages' => ["Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)"],
 							];
 						}
 					}else{
 						$return_data_arr = [
 							'has_error' => TRUE,
-							'error_messages' => "Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)",
+							'error_messages' => ["Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)"],
 						];
 					}
 				}
@@ -792,7 +807,7 @@ class IFARegistrationController extends Controller {
 							}else{
 								$return_data_arr = [
 									'has_error' => TRUE,
-									'error_messages' => "Uploaded Picture is not valid.",
+									'error_messages' => ["Uploaded Picture is not valid."],
 								];
 							}
 
@@ -800,13 +815,13 @@ class IFARegistrationController extends Controller {
 						}else{
 							$return_data_arr = [
 								'has_error' => TRUE,
-								'error_messages' => "Uploaded Picture File Size Maximum Up to 1MB.",
+								'error_messages' => ["Uploaded Picture File Size Maximum Up to 1MB."],
 							];
 						}
 					}else{
 						$return_data_arr = [
 							'has_error' => TRUE,
-							'error_messages' => "Uploaded Picture is not valid. Only jpg, jpeg, png image type is allowed.",
+							'error_messages' => ["Uploaded Picture is not valid. Only jpg, jpeg, png image type is allowed."],
 						];
 					}
 				}
@@ -1016,20 +1031,20 @@ class IFARegistrationController extends Controller {
 							}else{
 								$return_data_arr = [
 									'has_error' => TRUE,
-									'error_messages' => "Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)",
+									'error_messages' => ["Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)"],
 								];
 							}
 
 						}else{
 							$return_data_arr = [
 								'has_error' => TRUE,
-								'error_messages' => "Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)",
+								'error_messages' => ["Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)"],
 							];
 						}
 					}else{
 						$return_data_arr = [
 							'has_error' => TRUE,
-							'error_messages' => "Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)",
+							'error_messages' => ["Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)"],
 						];
 					}
 				}
@@ -1493,36 +1508,49 @@ class IFARegistrationController extends Controller {
 				];
 				return $return_data_arr;
 			}
-			if($application_no != 0){
-				$mobileNoCheck = IFARegistration::get()->where('mobile_no', $request->input('mobile_no'))->where('application_no', '<>', $application_no)->count();
+			if(empty($request->input('mobile_no'))){
+				$return_data_arr = [
+					'has_error' => TRUE,
+					'error_messages' => ['Mobile number is Required'],
+				];
+				return $return_data_arr;
 			}else{
-				$mobileNoCheck = IFARegistration::get()->where('mobile_no', $request->input('mobile_no'))->count();
-				if ($mobileNoCheck > 0) {
-					$return_data_arr = [
-						'has_error' => TRUE,
-						'error_messages' => 'Mobile number is already exists',
-					];
-					return $return_data_arr;
+				if($application_no != 0){
+					$mobileNoCheck = IFARegistration::get()->where('mobile_no', $request->input('mobile_no'))->where('application_no', '<>', $application_no)->count();
+				}else{
+					$mobileNoCheck = IFARegistration::get()->where('mobile_no', $request->input('mobile_no'))->count();
+					if ($mobileNoCheck > 0) {
+						$return_data_arr = [
+							'has_error' => TRUE,
+							'error_messages' => ['Mobile number is already exists'],
+						];
+						return $return_data_arr;
+					}
 				}
 			}
-
-			
 			
 
-			if($application_no != 0){
-				$emailCheck = IFARegistration::get()->where('email', $request->input('email'))->where('application_no', '<>', $application_no)->count();
+			
+			if(empty($request->input('email'))){
+				$return_data_arr = [
+					'has_error' => TRUE,
+					'error_messages' => ['Email address is Required.'],
+				];
+				return $return_data_arr;
 			}else{
-				$emailCheck = IFARegistration::get()->where('email', $request->input('email'))->count();
-				if ($emailCheck > 0) {
-					$return_data_arr = [
-						'has_error' => TRUE,
-						'error_messages' => 'Email address is already exists.',
-					];
-					return $return_data_arr;
+				if($application_no != 0){
+					$emailCheck = IFARegistration::get()->where('email', $request->input('email'))->where('application_no', '<>', $application_no)->count();
+				}else{
+					$emailCheck = IFARegistration::get()->where('email', $request->input('email'))->count();
+					if ($emailCheck > 0) {
+						$return_data_arr = [
+							'has_error' => TRUE,
+							'error_messages' => ['Email address is already exists.'],
+						];
+						return $return_data_arr;
+					}
 				}
 			}
-
-			
 
 			// if ($request->input('user_type') == -1) {
 			// 	$validMessage = [
@@ -1771,20 +1799,20 @@ class IFARegistrationController extends Controller {
 							}else{
 								$return_data_arr = [
 									'has_error' => TRUE,
-									'error_messages' => "Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)",
+									'error_messages' => ["Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)"],
 								];
 							}
 
 						}else{
 							$return_data_arr = [
 								'has_error' => TRUE,
-								'error_messages' => "Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)",
+								'error_messages' => ["Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)"],
 							];
 						}
 					}else{
 						$return_data_arr = [
 							'has_error' => TRUE,
-							'error_messages' => "Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)",
+							'error_messages' => ["Please check your image size(Max 1MB) or type(Only jpeg, jpg,png)"],
 						];
 					}
 				}
@@ -2147,20 +2175,20 @@ class IFARegistrationController extends Controller {
 							}else{
 								$return_data_arr = [
 									'has_error' => TRUE,
-									'error_messages' => "Uploaded Picture is not valid.",
+									'error_messages' => ["Uploaded Picture is not valid."],
 								];
 							}
 
 						}else{
 							$return_data_arr = [
 								'has_error' => TRUE,
-								'error_messages' => "Uploaded Picture File Size Maximum Up to 1MB.",
+								'error_messages' => ["Uploaded Picture File Size Maximum Up to 1MB."],
 							];
 						}
 					}else{
 						$return_data_arr = [
 							'has_error' => TRUE,
-							'error_messages' => "Uploaded Picture is not valid. Only jpg, jpeg, png image type is allowed.",
+							'error_messages' => ["Uploaded Picture is not valid. Only jpg, jpeg, png image type is allowed."],
 						];
 					}
 				}
