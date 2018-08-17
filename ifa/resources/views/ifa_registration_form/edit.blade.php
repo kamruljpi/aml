@@ -80,10 +80,14 @@ session()->forget('ifa_registration_success_message');
             @endif
         </div>
         <div class="row">
-
+            <div class="col-xs-12 text-center" style="padding-bottom: 5px;">
+                <a href="{{route('forget_password_view')}}" class="btn btn-default btn-block btn-flat"> Forgotten password?</a>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-xs-12 text-center">
                 <button type="submit" class="btn btn-danger btn-block btn-flat">Sign In</button>
-            </div><!-- /.col -->
+            </div>
         </div>
     </form>
 
