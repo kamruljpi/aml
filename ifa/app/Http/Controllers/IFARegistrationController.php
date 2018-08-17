@@ -25,7 +25,7 @@ class IFARegistrationController extends Controller {
 	public function create($application_no = 0, $step = 1) {
 
 
-		if (!empty($request->session()->get('mobile_no')) && !empty($request->session()->get('ifausraccess'))) {
+		if (!empty(session()->get('mobile_no')) && !empty(session()->get('ifausraccess'))) {
 			return redirect()->route('ifa_registration.postEdit');
 		}
 
