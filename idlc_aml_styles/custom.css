@@ -1534,3 +1534,10 @@ a.slidesjs-stop {
 .modal li {
     list-style: none !important;
 }
+
+@media (min-width: 768px){
+    .modal-dialog {
+        width: 600px;
+        margin: 120px auto;
+    }
+}

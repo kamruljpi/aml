@@ -507,7 +507,7 @@ function disabledAllField(){
 function checkSubmitBtnStatus(){
     if(
         $("#first_name").val() != '' &&
-        $("#middle_name").val() != '' &&
+        // $("#middle_name").val() != '' &&
         $("#last_name").val() != '' &&
         $("#mobile_no").val() != '' &&
         $("#email").val() != '' &&

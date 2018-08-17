@@ -49,12 +49,12 @@
     </div>
     @endif
 
-        @if(session()->has('ifa_registration_success_message'))
+        {{-- @if(session()->has('ifa_registration_success_message'))
             <div class="alert alert-success alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <strong>{{ session()->pull('ifa_registration_success_message') }}</strong>
             </div>
-        @endif
+        @endif --}}
 
         
     <form method="POST" action="{{route('ifa_registration.postEdit')}}" accept-charset="UTF-8" class="form-signin">

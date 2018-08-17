@@ -732,13 +732,13 @@ if (isset($banks)) {
                     && $("#present_address_house_no").val() != ''
                     && $("#present_address_flat_no").val() != ''
                     ){
-                    $("#permanent_address_premise_ownership").val($("#present_address_premise_ownership").val());
-                    $("#permanent_address_division").val($("#present_address_division").val());
-                    $("#permanent_address_district").val($("#present_address_district").val());
-                    $("#permanent_address_po").val($("#present_address_po").val());
-                    $("#permanent_address_road_no").val($("#present_address_road_no").val());
-                    $("#permanent_address_house_no").val($("#present_address_house_no").val());
-                    $("#permanent_address_flat_no").val($("#present_address_flat_no").val());
+                    // $("#permanent_address_premise_ownership").val($("#present_address_premise_ownership").val());
+                    // $("#permanent_address_division").val($("#present_address_division").val());
+                    // $("#permanent_address_district").val($("#present_address_district").val());
+                    // $("#permanent_address_po").val($("#present_address_po").val());
+                    // $("#permanent_address_road_no").val($("#present_address_road_no").val());
+                    // $("#permanent_address_house_no").val($("#present_address_house_no").val());
+                    // $("#permanent_address_flat_no").val($("#present_address_flat_no").val());
                     $('.is_same_as_present_address_flag_yes').css('display','none');
                 }else{
                     $('.validation_error_msg').empty();

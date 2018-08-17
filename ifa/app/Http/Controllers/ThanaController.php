@@ -22,7 +22,7 @@ class ThanaController extends Controller
                             ->join('tbl_bangladesh_districts as tbds','tbds.district_id','tbtn.district_id')
                             ->join('tbl_bangladesh_divisions as tbdv','tbdv.division_id','tbtn.division_id')
                             ->where('tbtn.is_deleted',0)
-                            ->orderBy('thana_id','DESC')
+                            ->orderBy('thana_name','ASC')
                             ->paginate(15);
         return view('managment.thana.index',compact('thanaDetails'));
     }
@@ -31,6 +31,7 @@ class ThanaController extends Controller
         $divisionDetails = DB::table('tbl_bangladesh_divisions')
                             ->select('division_id','division_name')
                             ->where('is_deleted',0)
+                            ->orderBy('thana_name','ASC')
                             ->get();
 
         // $districtDetails = DB::table('tbl_bangladesh_districts')
@@ -87,13 +88,14 @@ class ThanaController extends Controller
 
     
     public function edit($id)
-    {   
-        $divisionDetails = DB::table('tbl_bangladesh_divisions')->select('division_id','division_name')->where('is_deleted',0)->get();
+    {
+        $divisionDetails = DB::table('tbl_bangladesh_divisions')->select('division_id','division_name')->where('is_deleted',0)->orderBy('division_name','ASC')->get();
         $findThana = DB::table('tbl_bangladesh_thanas as tbtn')
                             ->select('tbtn.thana_id','tbtn.division_id','tbtn.district_id','tbtn.thana_name','tbds.district_name','tbtn.is_active','tbdv.division_name')
                             ->join('tbl_bangladesh_divisions as tbdv','tbdv.division_id','tbtn.division_id')
                             ->join('tbl_bangladesh_districts as tbds','tbds.district_id','tbtn.district_id')
                             ->where('tbtn.thana_id',$id)
+                            ->orderBy('tbtn.thana_name','ASC')
                             ->get();
         return view('managment.thana.edit',compact('findThana','divisionDetails'));
     }
@@ -150,6 +152,7 @@ class ThanaController extends Controller
                 DB::table('tbl_bangladesh_districts')
                 ->select('district_id','district_name')
                 ->where('division_id',$request->district_id)
+                ->orderBy('district_name','ASC')
                 ->get());
     }
     
@@ -160,6 +163,7 @@ class ThanaController extends Controller
                 ->join('tbl_bangladesh_divisions as tbdv','tbdv.division_id','tbtn.division_id')
                 ->join('tbl_bangladesh_districts as tbds','tbds.district_id','tbtn.district_id')
                 ->where([['tbtn.division_id',$request->division_id],['tbtn.district_id',$request->district_id]])
+                ->orderBy('tbtn.thana_name','ASC')
                 ->get());
 
         return $data;

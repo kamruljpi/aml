@@ -34,13 +34,13 @@ class IFARegistrationController extends Controller {
 			'application_no' => $application_no,
 			'step' => $step,
 			'divisions' => DB::table('tbl_bangladesh_divisions')
-				->orderBy('division_id', 'DESC')
+				->orderBy('division_name', 'ASC')
 				->where('is_deleted', 0)->get(),
 			'banks' => DB::table('tbl_bangladesh_bank')
-				->orderBy('bank_id', 'DESC')
+				->orderBy('bank_name', 'ASC')
 				->where('is_deleted', 0)->get(),
 			'nationalities' => DB::table('tbl_nationalitys')
-				->orderBy('id_nationality', 'DESC')
+				->orderBy('nationality', 'ASC')
 				->where('is_deleted', 0)->get(),
 			'premise_ownerships' => DB::table('tbl_premise_ownership')
 				->orderBy('id_premise_ownership', 'ASC')
@@ -1350,16 +1350,16 @@ class IFARegistrationController extends Controller {
 
 		$data = [
 			'divisions' => DB::table('tbl_bangladesh_divisions')
-				->orderBy('division_id', 'DESC')
+				->orderBy('division_name', 'ASC')
 				->where('is_deleted', 0)->get(),
 			'banks' => DB::table('tbl_bangladesh_bank')
-				->orderBy('bank_id', 'DESC')
+				->orderBy('bank_name', 'ASC')
 				->where('is_deleted', 0)->get(),
 			'nationalities' => DB::table('tbl_nationalitys')
-				->orderBy('id_nationality', 'DESC')
+				->orderBy('nationality', 'ASC')
 				->where('is_deleted', 0)->get(),
 			'premise_ownerships' => DB::table('tbl_premise_ownership')
-				->orderBy('id_premise_ownership', 'ASC')
+				->orderBy('id_premise_ownership', 'DESC')
 				->where('is_deleted', 0)->get(),
 			'user_types' => DB::table('tbl_user_type')
 				->orderBy('id_user_type', 'DESC')
