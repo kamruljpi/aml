@@ -41,7 +41,6 @@
     </style>
 
     <div class="col-sm-4 col-sm-offset-4">
-
         <form method="POST" action="" accept-charset="UTF-8" class="form-signin">
 
             <div class="form-group has-feedback">
@@ -50,20 +49,22 @@
             </div>
 
             <div class="form-group has-feedback">
-                <input type="password" id="new_password" name="new_password" class="form-control" placeholder="new password" required/>
+                <input type="password" id="new_passwords" name="new_password" class="form-control" placeholder="New password" required/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="confirm password" required/>
+                <input type="password" id="confirm_passwords" name="confirm_password" class="form-control" placeholder="Confirm password" required/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
+            
             <div class="row">
                 <div class="col-xs-12 text-center">
                     <button type="submit" class="btn btn-danger btn-block btn-flat">Change Password</button>
-                </div><!-- /.col -->
+                </div>
             </div>
-        </form>
 
+            
+        </form>
     </div>
 
 @endsection

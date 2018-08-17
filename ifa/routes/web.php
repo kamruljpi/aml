@@ -55,20 +55,20 @@ Route::group(
 			'uses' => 'ClientController@addUrgentClientAction',
 		));
 
-		Route::get('/search_purchased_client/{n?}', array(
-			'as' => 'search_client',
-			'uses' => 'product\PurchasedSearchController@search_client',
-		));
+		// Route::get('/search_purchased_client/{n?}', array(
+		// 	'as' => 'search_client',
+		// 	'uses' => 'product\PurchasedSearchController@search_client',
+		// ));
 
-		Route::get('/search_purchased_invoice/', array(
-			'as' => 'search_invoice',
-			'uses' => 'product\PurchasedSearchController@search_invoice',
-		));
+		// Route::get('/search_purchased_invoice/', array(
+		// 	'as' => 'search_invoice',
+		// 	'uses' => 'product\PurchasedSearchController@search_invoice',
+		// ));
 
-		Route::get('/search_purchased_date/', array(
-			'as' => 'search_date',
-			'uses' => 'product\PurchasedSearchController@search_date',
-		));
+		// Route::get('/search_purchased_date/', array(
+		// 	'as' => 'search_date',
+		// 	'uses' => 'product\PurchasedSearchController@search_date',
+		// ));
 
 		// Super Admin Login/
 
