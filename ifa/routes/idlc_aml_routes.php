@@ -1,17 +1,17 @@
 <?php
 
+Route::get('/ifa-registration-form/change/password', 'ifa\ChangePassword@viewPage')->name('ifachangepassword');
+Route::get('/ifa-registration-form/forget/password', 'ifa\ForgotPassword@viewPage')->name('forget_password_view');
+
 Route::get('/ifa-registration-form', 'IFARegistrationController@index')->name('ifa_registration.index');
 Route::get('/ifa-registration-form/create', 'IFARegistrationController@create')->name('ifa_registration.create');
 Route::post('/ifa-registration-form', 'IFARegistrationController@store')->name('ifa_registration.store');
 Route::get('/ifa-registration-form/getedit', 'IFARegistrationController@edit')->name('ifa_registration.edit');
 Route::any('/ifa-registration-form/edit', 'IFARegistrationController@postEdit')->name('ifa_registration.postEdit');
 
-Route::get('/ifa-registration-form/exit', 'IFA\IFALoginController@logout')->name('ifa_registration.exit');
+Route::get('/ifa-registration-form/exit', 'ifa\IFALoginController@logout')->name('ifa_registration.exit');
+
 Route::put('/ifa-registration-form/{application_no}', 'IFARegistrationController@update')->name('ifa_registration.update');
-
-// Route::get('/ifa-registration-form/changes_passwords', 'IFAChangePasswordController@index')->name('ifa_change_password
-// 	');
-
 
 Route::resource('divisions', 'DivisionController');
 Route::resource('districts', 'DistrictController');
