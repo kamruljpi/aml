@@ -860,11 +860,13 @@ if (isset($banks)) {
                 }
                 form_data.append("_token",$('input[name=_token]').val());
                 form_data.append("application_no",$('input[name=application_no]').val());
-                form_data.append("button_name",$('input[name=button_name]').val());
+                // form_data.append("button_name",$('input[name=button_name]').val());
                 if(datatxt == 'Submit'){
                     form_data.append("application_status",'Submitted');
+                    form_data.append("button_name",'Submit');
                 }else{
                     form_data.append("application_status",'PartiallyCompleted');
+                    form_data.append("button_name",'Save');
                 }
                 form_data.append("step",333);
                 $.ajax({
@@ -878,7 +880,7 @@ if (isset($banks)) {
                         $('.create_validation_error').empty();
                         $('.create_validation_error').css('display','none');
                         $('body').scrollspy({target: '#myScrollspy'});
-        // console.log(response);
+        
                         if (response.has_error === true) {
                             var html_err = '';
                             $.each(response.error_messages, function (key, value) {
@@ -933,7 +935,9 @@ session()->put('ifa_registration_success_message', 'Thank you for applying as IF
 
                             $('#success_message_alert').css('display', 'block');
                             if(response.success_messages.password != null){
-                                var loginfo = "<br>Your User ID(Mobile No) is +880"+response.success_messages.mobile_no+" <br>And Password is "+response.success_messages.password;
+                                if(response.success_messages.password != '' && response.success_messages.mobile_no != ''){
+                                    var loginfo = "<br>Your User ID(Mobile No) is +880"+response.success_messages.mobile_no+" <br>And Password is "+response.success_messages.password;
+                                }
                             }else{
                                 var loginfo = "";
                             }

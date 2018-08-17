@@ -115,47 +115,49 @@ class IFARegistrationController extends Controller {
 				'validation.required' => '',
 			];
 			$datas = $request->all();
+			$validate_arr = ['first_name' => 'required|max:70',
+				'last_name' => 'required|max:70',
+				'date_of_birth' => 'required',
+				'national_id_card_no' => 'required|max:25',
+				'middle_name' => 'sometimes|max:70',
+				'father_name' => 'sometimes|max:254',
+				'mother_name' => 'sometimes|max:254',
+				'upload_picture' => 'sometimes|image|mimes:jpeg,jpg,png|max:1024',
+				'present_address_flat_no' => 'sometimes|max:254',
+				'present_address_house_no' => 'sometimes|max:254',
+				'present_address_road_no' => 'sometimes|max:254',
+				'present_address_division' => 'sometimes',
+				'present_address_district' => 'sometimes',
+				'present_address_po' => 'sometimes',
+				'present_address_premise_ownership' => 'sometimes|max:254',
+				'permanent_address_flat_no' => 'sometimes|max:254',
+				'permanent_address_house_no' => 'sometimes|max:254',
+				'permanent_address_road_no' => 'sometimes|max:254',
+				'permanent_address_division' => 'sometimes',
+				'permanent_address_district' => 'sometimes',
+				'permanent_address_po' => 'sometimes',
+				'permanent_address_premise_ownership' => 'sometimes|max:254',
+				'organization_name' => 'sometimes|max:254',
+				'job_holder_department' => 'sometimes|max:254',
+				'designation' => 'sometimes|max:254',
+				'employee_id_no' => 'sometimes|max:30',
+				'institution_name' => 'sometimes|max:254',
+				'student_department' => 'sometimes|max:254',
+				'student_id_card_no' => 'sometimes|max:30',
+				'bank' => 'sometimes|max:254',
+				'account_no' => 'sometimes|max:254',
+				'branch' => 'sometimes|max:254',
+				'bKash_account_type' => 'sometimes|max:254',
+				'bKash_mobile_no' => 'sometimes|max:10',
+			];
 			
-			$validator = Validator::make($datas,
-				['first_name' => 'required|max:70',
-					'last_name' => 'required|max:70',
-					'date_of_birth' => 'required',
-					// 'mobile_no' => $mobile_no_uc,
-					// 'email' => $email_uc,
-					'national_id_card_no' => 'required|max:25',
-					'middle_name' => 'sometimes|max:70',
-					'father_name' => 'sometimes|max:254',
-					'mother_name' => 'sometimes|max:254',
-					'upload_picture' => 'sometimes|image|mimes:jpeg,jpg,png|max:1024',
-					'present_address_flat_no' => 'sometimes|max:254',
-					'present_address_house_no' => 'sometimes|max:254',
-					'present_address_road_no' => 'sometimes|max:254',
-					'present_address_division' => 'sometimes',
-					'present_address_district' => 'sometimes',
-					'present_address_po' => 'sometimes',
-					'present_address_premise_ownership' => 'sometimes|max:254',
-					'permanent_address_flat_no' => 'sometimes|max:254',
-					'permanent_address_house_no' => 'sometimes|max:254',
-					'permanent_address_road_no' => 'sometimes|max:254',
-					'permanent_address_division' => 'sometimes',
-					'permanent_address_district' => 'sometimes',
-					'permanent_address_po' => 'sometimes',
-					'permanent_address_premise_ownership' => 'sometimes|max:254',
-					'organization_name' => 'sometimes|max:254',
-					'job_holder_department' => 'sometimes|max:254',
-					'designation' => 'sometimes|max:254',
-					'employee_id_no' => 'sometimes|max:30',
-					'institution_name' => 'sometimes|max:254',
-					'student_department' => 'sometimes|max:254',
-					'student_id_card_no' => 'sometimes|max:30',
-					'bank' => 'sometimes|max:254',
-					'account_no' => 'sometimes|max:254',
-					'branch' => 'sometimes|max:254',
-					'bKash_account_type' => 'sometimes|max:254',
-					'bKash_mobile_no' => 'sometimes|max:10',
-				],
-				$validMessage
-			);
+			if($application_no == 0){
+				$validate_arr['mobile_no'] = 'required|digits:10|unique:tbl_ifa_registrations,mobile_no';
+				$validate_arr['email'] = 'required|email|max:200|unique:tbl_ifa_registrations,email';
+			}
+
+			$validator = Validator::make($datas, $validate_arr
+				,$validMessage);
 
 			if ($validator->fails()) {
 				$validationError = $validator->messages();
@@ -536,6 +538,8 @@ class IFARegistrationController extends Controller {
 						$loginfo = "<br>Your User ID(Mobile No) is +880".$mobile_no." <br>And Password is ".$xpassword;
 					}else{
 						$loginfo = "";
+						$xpassword = "";
+						$xapplication_password = "";
 					}
 
 					
