@@ -25,7 +25,7 @@ class IFARegistrationController extends Controller {
 	public function create($application_no = 0, $step = 1) {
 
 
-		if (session()->get('mobile_no') !== null && session()->get('ifausraccess') !== null) {
+		if (!empty($request->session()->get('mobile_no')) && !empty($request->session()->get('ifausraccess'))) {
 			return redirect()->route('ifa_registration.postEdit');
 		}
 
@@ -34,13 +34,13 @@ class IFARegistrationController extends Controller {
 			'application_no' => $application_no,
 			'step' => $step,
 			'divisions' => DB::table('tbl_bangladesh_divisions')
-				->orderBy('division_id', 'DESC')
+				->orderBy('division_name', 'ASC')
 				->where('is_deleted', 0)->get(),
 			'banks' => DB::table('tbl_bangladesh_bank')
-				->orderBy('bank_id', 'DESC')
+				->orderBy('bank_name', 'ASC')
 				->where('is_deleted', 0)->get(),
 			'nationalities' => DB::table('tbl_nationalitys')
-				->orderBy('id_nationality', 'DESC')
+				->orderBy('nationality', 'ASC')
 				->where('is_deleted', 0)->get(),
 			'premise_ownerships' => DB::table('tbl_premise_ownership')
 				->orderBy('id_premise_ownership', 'ASC')
@@ -1340,7 +1340,7 @@ class IFARegistrationController extends Controller {
 
 	public function edit(Request $request) {
 
-		if ($request->session()->get('mobile_no') !== null && $request->session()->get('ifausraccess') !== null) {
+		if (!empty($request->session()->get('mobile_no')) && !empty($request->session()->get('ifausraccess'))) {
 			return redirect()->route('ifa_registration.postEdit');
 		}
 		return view('ifa_registration_form.edit');
@@ -1350,30 +1350,29 @@ class IFARegistrationController extends Controller {
 
 		$data = [
 			'divisions' => DB::table('tbl_bangladesh_divisions')
-				->orderBy('division_id', 'DESC')
+				->orderBy('division_name', 'ASC')
 				->where('is_deleted', 0)->get(),
 			'banks' => DB::table('tbl_bangladesh_bank')
-				->orderBy('bank_id', 'DESC')
+				->orderBy('bank_name', 'ASC')
 				->where('is_deleted', 0)->get(),
 			'nationalities' => DB::table('tbl_nationalitys')
-				->orderBy('id_nationality', 'DESC')
+				->orderBy('nationality', 'ASC')
 				->where('is_deleted', 0)->get(),
 			'premise_ownerships' => DB::table('tbl_premise_ownership')
-				->orderBy('id_premise_ownership', 'ASC')
+				->orderBy('id_premise_ownership', 'DESC')
 				->where('is_deleted', 0)->get(),
 			'user_types' => DB::table('tbl_user_type')
 				->orderBy('id_user_type', 'DESC')
 				->where('is_deleted', 0)->get(),
 		];
 
-		if ($request->session()->get('mobile_no') !== null && $request->session()->get('ifausraccess') !== null) {
+		if (!empty($request->session()->get('mobile_no')) && !empty($request->session()->get('ifausraccess'))) {
 			$userName = $request->session()->get('mobile_no');
 			$password = $request->session()->get('ifausraccess');
 		} else {
 
 			$userName = $request->input('mobile_no');
 			$password = $request->input('password');
-			// $userName = substr($userName, 2, 11);
 
 		}
 
@@ -1401,6 +1400,11 @@ class IFARegistrationController extends Controller {
 	}
 
 	public function update(Request $request, $application_no) {
+
+		if (empty($request->session()->get('mobile_no')) && empty($request->session()->get('ifausraccess'))) {
+			return redirect()->route('ifa_registration.edit');
+		}
+
 		$validator_arr = $return_data_arr = $insert_arr = [];
 
 		$step = $request->input('step');
@@ -2408,6 +2412,7 @@ class IFARegistrationController extends Controller {
 		}
 		return response()->json($return_data_arr);
 	}
+
 	public function checkSubmitStatus(Request $request){
 		if(!empty($request->input('application_status'))){
 			return $request->input('application_status');
