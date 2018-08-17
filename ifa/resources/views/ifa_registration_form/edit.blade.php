@@ -56,20 +56,13 @@
             </div>
         @endif
 
-        <?php
-session()->forget('ifa_registration_success_message');
-?>
-
+        
     <form method="POST" action="{{route('ifa_registration.postEdit')}}" accept-charset="UTF-8" class="form-signin">
         <input name="_token" type="hidden" value="{{ csrf_token() }}">
 
         <div class="input-group mobile_no_box {{ $errors->has('application_no') ? ' has-error' : ''}}" style="margin-bottom:10px;">
             <span class="input-group-addon" id="application_no">+880</span>
             <input type="text" id="application_no" name="mobile_no" class="form-control" placeholder="Mobile No" value="" autocomplete="off" required autofocus/>
-            {{-- <span class="glyphicon glyphicon-list form-control-feedback"></span>
-            @if($errors->has('application_no'))
-            <span class="help-block">{{ $errors->first('application_no') }}</span>
-            @endif --}}
         </div>
 
         <div class="form-group has-feedback{{ $errors->has('password') ? ' has-error' : ''}}">

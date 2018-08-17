@@ -9,7 +9,10 @@ Route::post('/ifa-registration-form', 'IFARegistrationController@store')->name('
 Route::get('/ifa-registration-form/getedit', 'IFARegistrationController@edit')->name('ifa_registration.edit');
 Route::any('/ifa-registration-form/edit', 'IFARegistrationController@postEdit')->name('ifa_registration.postEdit');
 
+
 Route::get('/ifa-registration-form/exit', 'ifa\IFALoginController@logout')->name('ifa_registration.exit');
+
+Route::post('/ifa-registration-form/{application_no}', 'IFARegistrationController@update')->name('ifa_registration.update');
 
 Route::put('/ifa-registration-form/{application_no}', 'IFARegistrationController@update')->name('ifa_registration.update');
 

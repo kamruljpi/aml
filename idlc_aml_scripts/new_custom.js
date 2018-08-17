@@ -31,7 +31,7 @@ $('#mobile_no').focusout(function(e){
             $('.alert-danger').hide();
             $('.modal .alert-danger').show();
             $('#unique_input_error').modal('show');
-            $('.validation_error_msg').append("Please Input Valid Mobile Number(17..,18..,19...,16...,15...)");
+            $('.validation_error_msg').append("Mobile Number Must be start with (17..,18..,19...,16...,15...)");
             $("#mobile_no").val("").focus();
         }else{
             $.ajax({
@@ -399,7 +399,7 @@ $('#bKash_mobile_no').focusout(function(e){
             $('.alert-danger').hide();
             $('.modal .alert-danger').show();
             $('#unique_input_error').modal('show');
-            $('.validation_error_msg').append("Please Input Valid Bkash Mobile Number(17..,18..,19...,16...,15...)");
+            $('.validation_error_msg').append("Mobile Number Must be start with (17..,18..,19...,16...,15...)");
             $("#bKash_mobile_no").val("").focus();
         }else{
             $('#unique_input_error').modal('hide');
@@ -564,6 +564,11 @@ function checkSubmitBtnStatus(){
                             $("#permanent_address_house_no").val() != '' &&
                             $("#permanent_address_flat_no").val() != '') || ($('input[name=is_same_as_present_address]:checked').val() == 'yes')
                             ){
+                                // if(document.getElementById("upload_picture").files.length != 0){
+                                //    $('.btn_submit').removeAttr("disabled");
+                                // }else{
+                                    // $(".btn_submit").attr("disabled", true);
+                                // }
                             $('.btn_submit').removeAttr("disabled");
                         }else{
                             $(".btn_submit").attr("disabled", true);
