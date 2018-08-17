@@ -1,6 +1,8 @@
 <?php                                                 ?>
 
 @extends('layouts.idlc_aml.app')
+@section('page_title','IDLC AML - Register')
+@section('body_label','IFA Registration')
 @section('content')
 <style type="text/css">
     body {
