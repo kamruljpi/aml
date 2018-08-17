@@ -1,6 +1,8 @@
 <?php
 
 Route::get('/ifa-registration-form/change/password', 'ifa\ChangePassword@viewPage')->name('ifachangepassword');
+Route::post('/ifa-registration-form/changed/password', 'ifa\ChangePassword@changePasswordAction')->name('ifachangepasswordaction');
+
 Route::get('/ifa-registration-form/forget/password', 'ifa\ForgotPassword@viewPage')->name('forget_password_view');
 
 Route::get('/ifa-registration-form', 'IFARegistrationController@index')->name('ifa_registration.index');

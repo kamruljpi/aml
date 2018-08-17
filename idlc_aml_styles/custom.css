@@ -1541,3 +1541,9 @@ a.slidesjs-stop {
         margin: 120px auto;
     }
 }
+.my_profile_page{
+    display: none;
+}
+.ifachangepassword .my_profile_page{
+    display: inline-block;
+}

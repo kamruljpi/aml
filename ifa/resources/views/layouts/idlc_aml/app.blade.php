@@ -120,8 +120,12 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->    </head>
+<?php 
 
-    <body class="{{ (Route::current()->getName() == 'ifa_registration.postEdit') ? 'ifa_edit_page' : '' }} {{ (Route::current()->getName() == 'ifa_registration.create') ? 'ifa_create_page' : '' }} {{ (Route::current()->getName() == 'ifa_registration.edit') ? 'ifa_login_page' : '' }} {{ (Route::current()->getName() == 'ifa_registration.index') ? 'ifa_main_page' : '' }}">
+$currentRouteName = str_replace(".","_", Route::current()->getName());
+
+?>
+    <body class="{{ $currentRouteName }}{{ (Route::current()->getName() == 'ifa_registration.postEdit') ? 'ifa_edit_page' : '' }} {{ (Route::current()->getName() == 'ifa_registration.create') ? 'ifa_create_page' : '' }} {{ (Route::current()->getName() == 'ifa_registration.edit') ? 'ifa_login_page' : '' }} {{ (Route::current()->getName() == 'ifa_registration.index') ? 'ifa_main_page' : '' }}">
         <div class="modal fade" id="required_documents" tabindex="-1" role="dialog" aria-labelledby="required_documentsLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -214,6 +218,7 @@
 
                     @if(session()->get('mobile_no') !== null && session()->get('ifausraccess') !== null)
                         <div class="col-md-4 col-xs-12">
+                            <a href="{{route('ifa_registration.postEdit')}}" class="btn btn-danger my_profile_page">My Profile</a>
                             <a  href="{{route('ifachangepassword')}}" class="btn btn-danger">Change Password</a>
                             <a  href="{{ route('ifa_registration.exit') }}" class="btn btn-danger">SIGN OUT</a>
                         </div>
