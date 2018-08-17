@@ -10,7 +10,7 @@
         <meta name="description" content="Log-in to your account for IDLC Mutual Funds at IDLC Asset Management Limited"/>
         <meta name="robots" content="index,follow"/>
 
-        <title>IDLC AML - Login</title>
+        <title>@yield('page_title')</title>
 
         <!-- Bootstrap -->
         <link href="{{ asset('idlc_aml_styles') }}/bootstrap.min.css" rel="stylesheet">
@@ -214,7 +214,7 @@
 
                     @if(session()->get('mobile_no') !== null && session()->get('ifausraccess') !== null)
                         <div class="col-md-4 col-xs-12">
-                            <!-- <a  href="" class="btn btn-danger">Change Password</a> -->
+                            <a  href="{{route('ifachangepassword')}}" class="btn btn-danger">Change Password</a>
                             <a  href="{{ route('ifa_registration.exit') }}" class="btn btn-danger">SIGN OUT</a>
                         </div>
                     @endif
@@ -345,7 +345,9 @@
             </div>
             <div class='container'>
                 <div class='single_heading wow fadeInDown'>
-                    <h1>IFA Registration</h1>
+                    <h1>
+                    @yield('body_label')
+                    </h1>
                 </div>
             </div>
         </section>
