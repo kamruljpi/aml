@@ -7,3 +7,5 @@ Route::resource('banks', 'BankController');
 Route::resource('branchs', 'BranchController');
 
 Route::any('get/division','ThanaController@showDivision');
+
+
