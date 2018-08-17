@@ -1,6 +1,8 @@
 <?php //echo public_path();exit;                                                     ?>
 
 @extends('layouts.idlc_aml.app')
+@section('page_title','IDLC AML - login')
+@section('body_label','IFA Registration')
 @section('content')
 <style type="text/css">
     body {

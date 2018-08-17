@@ -1,6 +1,8 @@
 <?php //echo public_path();exit;                                                     ?>
 
 @extends('layouts.idlc_aml.app')
+@section('page_title','IDLC AML - Change password')
+@section('body_label','Change Password')
 @section('content')
     <style type="text/css">
         body {
